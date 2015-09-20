@@ -1,0 +1,28 @@
+/* Empty. Add your own CSS if you like */
+.study-plane{
+  background-color: #387EF5;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.study-header{
+  text-align: center;
+}
+.study-word{
+  color: #33cd5f;
+  font-size: 26px;
+  line-height: 40px;
+}
+.slider-slide {
+  padding-bottom: 40px;
+  color: #000;
+  background-color: #fff;
+  text-align: center;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+}
+.study-mean{float: left;}
+.study-example{float: left;font-size: 14px;}
+.study-chinese-example{float: left;color: dimgray;}
+.study-button{font-size: 15px;width: 100%;}
