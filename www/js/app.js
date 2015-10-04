@@ -20,7 +20,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+
+
+
   });
+
+
+
+
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -38,9 +45,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     templateUrl: 'templates/tabs.html'
   })
 
-  // Each tab has its own nav history stack:
 
-  .state('tab.word', {
+    .state('login',{
+      url:'/login',
+      templateUrl: 'templates/login.html',
+      form:true,
+      controller: 'LoginCtrl'
+    })
+
+
+    // Each tab has its own nav history stack:
+    .state('tab.word', {
     url: '/word',
     views: {
       'tab-word': {
@@ -59,8 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
-
-  .state('tab.me', {
+    .state('tab.me', {
       url: '/me',
       views: {
         'tab-me': {
@@ -69,8 +83,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
-
-  .state('tab.more', {
+    .state('tab.more', {
     url: '/more',
     views: {
       'tab-more': {
@@ -81,6 +94,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/word');
+    var  userid = localStorage.getItem("userid");
+    if(userid != null){
+      $urlRouterProvider.otherwise('/tab/word');
+    }else{
+      $urlRouterProvider.otherwise('/login');
+    }
+
+
+
 
 });

@@ -13,9 +13,20 @@ angular.module('starter.controllers', [])
 
 .controller('MeCtrl', function($scope) {
 
-
 })
 
 .controller('MoreCtrl', function($scope) {
+
+})
+
+.controller('LoginCtrl', function($scope,$state){
+    $scope.account = '';
+    $scope.password = '';
+    $scope.login = function(){
+      if($scope.account != null && $scope.password != null){
+        localStorage.setItem("userid", $scope.account + $scope.password);
+        $state.go('tab.word');
+      }
+    }
 
 });
