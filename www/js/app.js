@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
         } else {
           $rootScope.backButtonPressedOnceToExit = true;
           layer.msg('再按一次退出应用');//web
-          //$cordovaToast.showShortTop('再按一次退出应用');//app
+          //$cordovaToast.showShortCenter('再按一次退出应用');//app
           setTimeout(function () {
             $rootScope.backButtonPressedOnceToExit = false;
           }, 2000);
@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       } else {
         $rootScope.backButtonPressedOnceToExit = true;
         layer.msg('再按一次退出应用');//web
-        //$cordovaToast.showShortTop('再按一次退出应用');//app
+        //$cordovaToast.showShortCenter('再按一次退出应用');//app
         setTimeout(function () {
           $rootScope.backButtonPressedOnceToExit = false;
         }, 2000);

@@ -22,7 +22,8 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LoginCtrl', function($scope,$state){
+//.controller('LoginCtrl', function($scope,$state){//web
+.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
     $scope.mobile = '';
     $scope.password = '';
     $scope.login = function(){
@@ -39,11 +40,14 @@ angular.module('starter.controllers', [])
           layer.msg('手机号非法');
         }
       }else if($scope.mobile == '' && $scope.password != ''){
-        layer.msg('手机号不能为空');
+        layer.msg('手机号不能为空');//web
+        //$cordovaToast.showShortCenter('手机号不能为空');//app
       }else if($scope.mobile != '' && $scope.password == ''){
         layer.msg('密码不能为空');
+        //$cordovaToast.showShortCenter('密码不能为空');//app
       }else{
         layer.msg('手机和密码不能为空');
+        //$cordovaToast.showShortCenter('手机和密码不能为空');//app
       }
     }
     $scope.register = function(){
