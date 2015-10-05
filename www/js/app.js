@@ -5,9 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
 
-.run(function($ionicPlatform) {
+  //.run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory,$cordovaToast) {//app
+  .run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory) {//web
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,14 +22,39 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleLightContent();
     }
 
-
-
   });
 
 
-
-
-})
+    //双击退出
+    $ionicPlatform.registerBackButtonAction(function (e) {
+      console.log($location.path());
+      //判断处于哪个页面时双击退出
+      if ($location.path() == '/login' || $location.path() == '/tab/word' ||  $location.path() == '/tab/me' || $location.path() == '/tab/more' ) {
+        if ($rootScope.backButtonPressedOnceToExit) {
+          ionic.Platform.exitApp();
+        } else {
+          $rootScope.backButtonPressedOnceToExit = true;
+          layer.msg('再按一次退出应用');//web
+          //$cordovaToast.showShortTop('再按一次退出应用');//app
+          setTimeout(function () {
+            $rootScope.backButtonPressedOnceToExit = false;
+          }, 2000);
+        }
+      }
+      else if ($ionicHistory.backView()) {
+        $ionicHistory.goBack();
+      } else {
+        $rootScope.backButtonPressedOnceToExit = true;
+        layer.msg('再按一次退出应用');//web
+        //$cordovaToast.showShortTop('再按一次退出应用');//app
+        setTimeout(function () {
+          $rootScope.backButtonPressedOnceToExit = false;
+        }, 2000);
+      }
+      e.preventDefault();
+      return false;
+    }, 101);
+  })
 
 .config(function($stateProvider, $urlRouterProvider) {
 
