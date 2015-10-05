@@ -48,9 +48,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     .state('login',{
       url:'/login',
-      templateUrl: 'templates/login.html',
-      form:true,
+      templateUrl: 'templates/common/login.html',
       controller: 'LoginCtrl'
+    })
+
+    .state('register',{
+      url:'/register',
+      templateUrl: 'templates/common/register.html',
+      controller: 'RegisterCtrl'
+    })
+
+    .state('forget-password',{
+      url:'/forget-password',
+      templateUrl: 'templates/common/forget-password.html',
+      controller: 'ForgetPasswordCtrl'
     })
 
 
@@ -59,7 +70,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     url: '/word',
     views: {
       'tab-word': {
-        templateUrl: 'templates/tab-word.html',
+        templateUrl: 'templates/tabs/tab-word.html',
         controller: 'WordCtrl'
       }
     }
@@ -68,7 +79,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       url: '/study',
       views: {
         'tab-word': {
-          templateUrl: 'templates/tab-study.html',
+          templateUrl: 'templates/tabs/tab-study.html',
           controller: 'StudyCtrl'
         }
       }
@@ -78,7 +89,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       url: '/me',
       views: {
         'tab-me': {
-          templateUrl: 'templates/tab-me.html',
+          templateUrl: 'templates/tabs/tab-me.html',
           controller: 'MeCtrl'
         }
       }
@@ -87,7 +98,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     url: '/more',
     views: {
       'tab-more': {
-        templateUrl: 'templates/tab-more.html',
+        templateUrl: 'templates/tabs/tab-more.html',
         controller: 'MoreCtrl'
       }
     }
@@ -95,7 +106,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // if none of the above states are matched, use this as the fallback
     var  userid = localStorage.getItem("userid");
-    if(userid != null){
+    if(userid != null && userid != ""){
       $urlRouterProvider.otherwise('/tab/word');
     }else{
       $urlRouterProvider.otherwise('/login');

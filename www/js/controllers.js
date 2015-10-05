@@ -28,5 +28,23 @@ angular.module('starter.controllers', [])
         $state.go('tab.word');
       }
     }
+    $scope.register = function(){
+      $state.go('register');
+    }
 
-});
+    $scope.forget_password = function(){
+      $state.go('forget-password');
+    }
+})
+
+  .controller('RegisterCtrl', function($scope,$state) {
+    $scope.register = function(){
+      $state.go('login');
+    }
+  })
+  .controller('ForgetPasswordCtrl', function($scope,$state) {
+
+  })
+
+
+;

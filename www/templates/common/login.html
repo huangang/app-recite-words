@@ -1,0 +1,17 @@
+<ion-view view-title="登陆">
+  <ion-content ng-controller="LoginCtrl">
+    <div class="list list-inset">
+      <label class="item item-input">
+        <input type="text" placeholder="手机" ng-model="account">
+      </label>
+      <label class="item item-input">
+        <input type="password" placeholder="密码" ng-model="password">
+        <!--<button class="button button-outline button-balanced activated" id="forget-password" ng-click="forget_password()">忘记密码</button>-->
+      </label>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-positive activated" ng-click="login()">登陆</button>
+      <button class="button button-block button-assertive activated" ng-click="register()">注册</button>
+    </div>
+  </ion-content>
+</ion-view>
