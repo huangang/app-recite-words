@@ -67,4 +67,13 @@
     <splash src="resources/ios/splash/Default@2x~iphone.png" height="960" width="640"/>
     <splash src="resources/ios/splash/Default~iphone.png" height="480" width="320"/>
   </platform>
+
+  <!-- for iOS -->
+  <feature name="Toast">
+    <param name="ios-package" value="Toast" />
+  </feature>
+  <!-- for Android -->
+  <feature name="Toast">
+    <param name="android-package" value="nl.xservices.plugins.Toast" />
+  </feature>
 </widget>

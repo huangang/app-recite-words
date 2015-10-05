@@ -11,8 +11,11 @@ angular.module('starter.controllers', [])
     $scope.studyActiveSlide = 0;
   })
 
-.controller('MeCtrl', function($scope) {
-
+.controller('MeCtrl', function($scope,$state) {
+    $scope.exit = function(){
+      localStorage.clear();
+      $state.go('login');
+    }
 })
 
 .controller('MoreCtrl', function($scope) {
@@ -20,12 +23,27 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LoginCtrl', function($scope,$state){
-    $scope.account = '';
+    $scope.mobile = '';
     $scope.password = '';
     $scope.login = function(){
-      if($scope.account != null && $scope.password != null){
-        localStorage.setItem("userid", $scope.account + $scope.password);
-        $state.go('tab.word');
+      console.log($scope.mobile);
+      if($scope.mobile != '' && $scope.password != ''){
+        localStorage.setItem("userid", $scope.mobile + $scope.password);
+        var true_mobile = /^1[3,5,8]\d{9}$/;
+        if(true_mobile.test($scope.mobile)) {
+          $scope.mobile = '';
+          $scope.password = '';
+          $state.go('tab.word');
+        }
+        else {
+          layer.msg('手机号非法');
+        }
+      }else if($scope.mobile == '' && $scope.password != ''){
+        layer.msg('手机号不能为空');
+      }else if($scope.mobile != '' && $scope.password == ''){
+        layer.msg('密码不能为空');
+      }else{
+        layer.msg('手机和密码不能为空');
       }
     }
     $scope.register = function(){
