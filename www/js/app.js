@@ -131,8 +131,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   });
 
   // if none of the above states are matched, use this as the fallback
-    var  userid = localStorage.getItem("userid");
-    if(userid != null && userid != ""){
+    var  uid = localStorage.getItem("uid");
+    if(uid != null && uid != ""){
       $urlRouterProvider.otherwise('/tab/word');
     }else{
       $urlRouterProvider.otherwise('/login');

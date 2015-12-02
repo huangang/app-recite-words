@@ -23,13 +23,26 @@ angular.module('starter.controllers', [])
 })
 
 //.controller('LoginCtrl', function($scope,$state){//web
-.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
-    $scope.mobile = '';
-    $scope.password = '';
-    $scope.login = function(){
+.controller('LoginCtrl', function($scope,$state,$location,$http,$cordovaToast){//app
+
+
+  var openid = $location.search()['openid'];
+  var uid = $location.search()['uid'];
+  var nickname = $location.search()['nickname'];
+  var head = $location.search()['head'];
+  if(openid != null && uid != null ){
+    localStorage.setItem("uid", uid);
+    localStorage.setItem("nickname", nickname);
+    localStorage.setItem("head", head);
+    $state.go('tab.word');
+  }
+
+  $scope.mobile = '';
+  $scope.password = '';
+  $scope.login = function(){
       console.log($scope.mobile);
       if($scope.mobile != '' && $scope.password != ''){
-        localStorage.setItem("userid", $scope.mobile + $scope.password);
+        localStorage.setItem("uid", $scope.mobile + $scope.password);
         var true_mobile = /^1[3,5,8]\d{9}$/;
         if(true_mobile.test($scope.mobile)) {
           $scope.mobile = '';
@@ -50,9 +63,9 @@ angular.module('starter.controllers', [])
         //$cordovaToast.showShortCenter('手机和密码不能为空');//app
       }
     }
-    $scope.register = function(){
-      $state.go('register');
-    }
+  $scope.register = function(){
+    $state.go('register');
+  }
 
     $scope.forget_password = function(){
       $state.go('forget-password');
