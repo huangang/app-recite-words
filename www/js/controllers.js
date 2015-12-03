@@ -12,10 +12,12 @@ angular.module('starter.controllers', [])
   })
 
 .controller('MeCtrl', function($scope,$state) {
-    $scope.exit = function(){
-      localStorage.clear();
-      $state.go('login');
-    }
+  $scope.nickname = localStorage.getItem('nickname');
+  $scope.head = localStorage.getItem('head');
+  $scope.exit = function(){
+    localStorage.clear();
+    $state.go('login');
+  }
 })
 
 .controller('MoreCtrl', function($scope) {
@@ -66,6 +68,7 @@ angular.module('starter.controllers', [])
     var nickname = $location.search()['nickname'];
     var head = $location.search()['head'];
     if(openid != null && uid != null ){
+      localStorage.setItem("openid", openid);
       localStorage.setItem("uid", uid);
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("head", head);
