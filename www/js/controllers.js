@@ -1,11 +1,14 @@
 angular.module('starter.controllers', [])
-  .constant("G", {
-    //全局变量设置
-    'api': 'http://api.pupued.com',
-    'version':'1.0.0'
-  })
 
-.controller('WordCtrl', function($scope,$state,$http) {
+.controller('WordCtrl', function($scope,$state,$http,G) {
+  $http.get(G.api + 'config/get_study_num', {
+    uid: localStorage.getItem('uid')
+  }).success(function(data){//成功
+    console.log(data)
+  }).error(function(){//失败
+
+  });
+  $scope.studyNum = 50;
     $scope.startStudy = function(){
       $state.go('tab.study');
     }
@@ -18,13 +21,24 @@ angular.module('starter.controllers', [])
     layer.prompt({
       title: '请输入新的学习计划',
       formType: 0 //prompt风格，支持0-2
-    }, function(pass){
-      $http.post('api/user', postData, config
-      ).success(function(data, status, headers, config) {
-        //成功之后做一些事情
-      }).error(function(data, status, headers, config) {
-        //处理错误
-      });
+    }, function(num){
+      num = + num;
+      if(isNaN(num) ){
+        layer.msg('只能填写数字类型', {
+          time: 20000, //20s后自动关闭
+          btn: ['明白了', '知道了']
+        });
+      }else {
+        $http.post(G.api + 'config/set_study_num', {
+          uid: localStorage.getItem('uid'),
+          num: num
+        }).success(function(){//成功
+          layer.msg('设置成功');
+        }).error(function(){//失败
+          layer.msg('设置失败');
+        });
+      }
+
     });
   }
 })

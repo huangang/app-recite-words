@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','starter.services','ngCordova'])
 
   //.run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory,$cordovaToast) {//app
   .run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory) {//web
