@@ -6,3 +6,4 @@ platforms/
 plugins/
 .idea
 *.log
+.DS_Store
