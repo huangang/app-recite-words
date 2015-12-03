@@ -25,18 +25,6 @@ angular.module('starter.controllers', [])
 //.controller('LoginCtrl', function($scope,$state){//web
 .controller('LoginCtrl', function($scope,$state,$location,$http,$cordovaToast){//app
 
-
-  var openid = $location.search()['openid'];
-  var uid = $location.search()['uid'];
-  var nickname = $location.search()['nickname'];
-  var head = $location.search()['head'];
-  if(openid != null && uid != null ){
-    localStorage.setItem("uid", uid);
-    localStorage.setItem("nickname", nickname);
-    localStorage.setItem("head", head);
-    $state.go('tab.word');
-  }
-
   $scope.mobile = '';
   $scope.password = '';
   $scope.login = function(){
@@ -72,6 +60,18 @@ angular.module('starter.controllers', [])
     }
 })
 
+  .controller('WxLoginCtrl', function($scope){
+    var openid = $location.search()['openid'];
+    var uid = $location.search()['uid'];
+    var nickname = $location.search()['nickname'];
+    var head = $location.search()['head'];
+    if(openid != null && uid != null ){
+      localStorage.setItem("uid", uid);
+      localStorage.setItem("nickname", nickname);
+      localStorage.setItem("head", head);
+      $state.go('tab.word');
+    }
+  })
   .controller('RegisterCtrl', function($scope,$state) {
     $scope.register = function(){
       $state.go('login');

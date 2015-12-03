@@ -78,6 +78,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       controller: 'LoginCtrl'
     })
 
+    .state('wx-login',{
+      url:'/wx-login',
+      controller: 'WxLoginCtrl'
+    })
+
     .state('register',{
       url:'/register',
       templateUrl: 'templates/common/register.html',
