@@ -22,8 +22,8 @@ angular.module('starter.controllers', [])
 
 })
 
-//.controller('LoginCtrl', function($scope,$state){//web
-.controller('LoginCtrl', function($scope,$state,$location,$http,$cordovaToast){//app
+.controller('LoginCtrl', function($scope,$state){//web
+//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
 
   $scope.mobile = '';
   $scope.password = '';
@@ -60,7 +60,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-  .controller('WxLoginCtrl', function($scope){
+  .controller('WxLoginCtrl', function($scope,$state,$location){
     var openid = $location.search()['openid'];
     var uid = $location.search()['uid'];
     var nickname = $location.search()['nickname'];
