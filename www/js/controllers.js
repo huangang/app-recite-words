@@ -1,11 +1,33 @@
 angular.module('starter.controllers', [])
+  .constant("G", {
+    //全局变量设置
+    'api': 'http://api.pupued.com',
+    'version':'1.0.0'
+  })
 
-.controller('WordCtrl', function($scope,$state) {
+.controller('WordCtrl', function($scope,$state,$http) {
     $scope.startStudy = function(){
       $state.go('tab.study');
     }
-
-  })
+  layer.use('extend/layer.ext.js', function(){
+    layer.ext = function(){
+      layer.prompt({})
+    };
+  });
+  $scope.adjustPlan = function(){
+    layer.prompt({
+      title: '请输入新的学习计划',
+      formType: 0 //prompt风格，支持0-2
+    }, function(pass){
+      $http.post('api/user', postData, config
+      ).success(function(data, status, headers, config) {
+        //成功之后做一些事情
+      }).error(function(data, status, headers, config) {
+        //处理错误
+      });
+    });
+  }
+})
 
   .controller('StudyCtrl', function($scope){
     $scope.studyActiveSlide = 0;
