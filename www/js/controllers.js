@@ -1,14 +1,17 @@
 angular.module('starter.controllers', [])
 
 .controller('WordCtrl', function($scope,$state,$http,G) {
-  $http.get(G.api + 'config/get_study_num', {
-    uid: localStorage.getItem('uid')
+  $http.get(G.api + 'config/get_study_num?uid='+localStorage.getItem('uid'), {
   }).success(function(data){//成功
-    console.log(data)
+    if(data.result == 1){
+      $scope.studyNum = data.data.study_num;
+    }else {
+      $scope.studyNum = 50;
+    }
   }).error(function(){//失败
 
   });
-  $scope.studyNum = 50;
+
     $scope.startStudy = function(){
       $state.go('tab.study');
     }
@@ -60,20 +63,46 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LoginCtrl', function($scope,$state){//web
+.controller('LoginCtrl', function($scope,$state,$http,G){//web
 //.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
 
   $scope.mobile = '';
   $scope.password = '';
   $scope.login = function(){
-      console.log($scope.mobile);
       if($scope.mobile != '' && $scope.password != ''){
-        localStorage.setItem("uid", $scope.mobile + $scope.password);
+        var password = hex_md5($scope.password);
         var true_mobile = /^1[3,5,8]\d{9}$/;
         if(true_mobile.test($scope.mobile)) {
-          $scope.mobile = '';
-          $scope.password = '';
-          $state.go('tab.word');
+          var url = G.api + 'user/login',
+            data = {
+              mobile:  $scope.mobile,
+              password: password
+            },
+            transFn = function(data) {
+              return $.param(data);
+            },
+            postCfg = {
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+              transformRequest: transFn
+            };
+          $http.post(url, data, postCfg)
+            .success(function(data){//成功
+            if(data.result == 1){
+              var user = data.data;
+              localStorage.setItem("uid", user.id );
+              localStorage.setItem("openid", user.openid );
+              localStorage.setItem("nickname", user.nickname );
+              localStorage.setItem("head", user.head );
+              $scope.mobile = '';
+              $scope.password = '';
+              $state.go('tab.word');
+            }else {
+              layer.msg('登录失败');
+            }
+          }).error(function(data){//失败
+            layer.msg('登录失败');
+          });
+
         }
         else {
           layer.msg('手机号非法');
