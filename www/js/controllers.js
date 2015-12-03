@@ -1,17 +1,14 @@
 angular.module('starter.controllers', [])
 
 .controller('WordCtrl', function($scope,$state,$http,G) {
-  $http.get(G.api + 'config/get_study_num?uid='+localStorage.getItem('uid'), {
-  }).success(function(data){//成功
-    if(data.result == 1){
-      $scope.studyNum = data.data.study_num;
-    }else {
-      $scope.studyNum = 50;
+  $scope.studyNum = 50;
+  $http.get(G.api + 'config/get_study_num?uid='+localStorage.getItem('uid'), {})
+    .success(function(res){//成功
+    if(res.result == 1){
+      var num = res.data;
+      $scope.studyNum = num.study_num;
     }
-  }).error(function(){//失败
-
-  });
-
+  }).error(function(){});
     $scope.startStudy = function(){
       $state.go('tab.study');
     }
@@ -32,10 +29,21 @@ angular.module('starter.controllers', [])
           btn: ['明白了', '知道了']
         });
       }else {
-        $http.post(G.api + 'config/set_study_num', {
-          uid: localStorage.getItem('uid'),
-          num: num
-        }).success(function(){//成功
+        var url = G.api + 'config/set_study_num',
+          data = {
+            uid:  localStorage.getItem('uid'),
+            num: num
+          },
+          transFn = function(data) {
+            return $.param(data);
+          },
+          postCfg = {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+            transformRequest: transFn
+          };
+        $http.post(url, data, postCfg)
+          .success(function(){//成功
+            $scope.studyNum = num;
           layer.msg('设置成功');
         }).error(function(){//失败
           layer.msg('设置失败');
@@ -127,7 +135,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-  .controller('WxLoginCtrl', function($scope,$state,$location){
+  .controller('WxLoginCtrl', function($scope,$state,$location,G){
     var openid = $location.search()['openid'];
     var uid = $location.search()['uid'];
     var nickname = $location.search()['nickname'];
@@ -137,7 +145,7 @@ angular.module('starter.controllers', [])
       localStorage.setItem("uid", uid);
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("head", head);
-      $state.go('tab.word');
+      $state.go('tab.me');
     }
   })
   .controller('RegisterCtrl', function($scope,$state) {
