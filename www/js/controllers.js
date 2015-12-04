@@ -56,14 +56,28 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('StudyCtrl',  function($scope,getStudyWordFactory){
+  .controller('StudyCtrl',  function($scope,$sce,getStudyWordFactory){
+    $scope.sce = $sce.trustAsResourceUrl;
     $scope.studyActiveSlide = 0;
+    $scope.audio = "http://media.shanbay.com/audio/us/hello.mp3";
     //获取服务器数据保存
     getStudyWordFactory.getWord();
     //接收到刚才传过来的通知
     $scope.$on('StudyWord', function() {
-      $scope.word = getStudyWordFactory.getWordData();
+      $scope.wordData = getStudyWordFactory.getWordData();
+      $scope.audio = $scope.wordData.audio;
+      if($scope.wordData.example != ''){
+        var str = $scope.wordData.example;
+        var re = /(\/r\/n)/g;
+        $scope.wordData.example = str.replace(re,"\n");
+      }else {
+        $scope.wordData.example = "无例子";
+      }
     });
+    $scope.playAudio = function(){
+      var audio = document.getElementById('audio');
+      audio.play();
+    }
   })
 
   .controller('MeCtrl', function($scope,$state) {
