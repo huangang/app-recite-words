@@ -44,8 +44,7 @@ angular.module('starter.controllers', [])
               transformRequest: transFn
             };
           $http.post(url, data, postCfg)
-            .success(function(data){//成;
-              console.log(data)
+            .success(function(data){
               $scope.studyNum = num;
             layer.msg('设置成功');
           }).error(function(){//失败
@@ -136,7 +135,8 @@ angular.module('starter.controllers', [])
     };
 })
 
-  .controller('WxLoginCtrl', function($scope,$state,$location,G){
+  .controller('WxLoginCtrl', function($scope,$state,$location){
+    layer.load();
     var openid = $location.search()['openid'];
     var uid = $location.search()['uid'];
     var nickname = $location.search()['nickname'];
@@ -146,7 +146,8 @@ angular.module('starter.controllers', [])
       localStorage.setItem("uid", uid);
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("head", head);
-      $state.go('tab.me');
+      layer.closeAll('loading');
+      $state.go('tab.word');
     }
   })
   .controller('RegisterCtrl', function($scope,$state) {
