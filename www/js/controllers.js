@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
     });
       $scope.startStudy = function(){
         $state.go('tab.study');
-      }
+      };
     layer.use('extend/layer.ext.js', function(){
       layer.ext = function(){
         layer.prompt({})
@@ -56,8 +56,14 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('StudyCtrl', function($scope){
+  .controller('StudyCtrl',  function($scope,getStudyWordFactory){
     $scope.studyActiveSlide = 0;
+    //获取服务器数据保存
+    getStudyWordFactory.getWord();
+    //接收到刚才传过来的通知
+    $scope.$on('StudyWord', function() {
+      $scope.word = getStudyWordFactory.getWordData();
+    });
   })
 
   .controller('MeCtrl', function($scope,$state) {

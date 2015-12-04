@@ -1,9 +1,9 @@
 angular.module('starter.services', [])
 
-  .factory('getConfig', function($rootScope,$resource,G) {
+  .factory('getStudyWordFactory',function($rootScope,$resource,G){
     var apiUrl = G.api;
-    var configData = {};
-    var resource = $resource(apiUrl + 'config/get_study_num', {}, {
+    var WordData = {};
+    var resource = $resource(apiUrl + 'study/get_word', {}, {
       query: {
         method: 'get',
         params: {
@@ -14,26 +14,25 @@ angular.module('starter.services', [])
     });
 
     return {
-      getDayNum:function(){
+      getWord:function(){
         resource.query({
           uid: localStorage.getItem('uid')
         }, function (r) {
-          configData = r.data;
+          WordData = r.data;
           //在这里请求完成以后  通知controller
-          $rootScope.$broadcast('PortalConfig');
+          $rootScope.$broadcast('StudyWord');
 
         })
       } ,
       //返回我们保存的数据
-      getConfigData:function(){
-        return configData.studyNum;
+      getWordData:function(){
+        return WordData;
       }
-
 
 
 
     }
   })
-  .factory('getUser',function(){
 
-  });
+
+;
