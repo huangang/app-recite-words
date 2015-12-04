@@ -9,6 +9,7 @@ angular.module("starter.config", [])
     'getWord': url + 'study/get_word',
     'getStudyNum': url + 'config/get_study_num',
     'userLogin' : url + 'user/login',
-    'recordStudy' : url + 'study/record'
+    'recordStudy' : url + 'study/record',
+    'setStudyNum' : url + 'config/set_study_num',
   })
 ;

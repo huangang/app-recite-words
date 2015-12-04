@@ -8,6 +8,7 @@ angular.module('starter.controllers', [])
         var num = res.data;
         $scope.studyNum = num.studyNum;
         localStorage.setItem('studyNum',num.studyNum);
+        localStorage.setItem('residueStudy',num.residueNum);
       }
     }).error(function(data){
       layer.msg(data)
@@ -22,7 +23,7 @@ angular.module('starter.controllers', [])
     });
     $scope.adjustPlan = function(){
       layer.prompt({
-        title: '请输入新的学习计划',
+        title: '请输入新的学习计划(20~80)',
         formType: 0 //prompt风格，支持0-2
       }, function(num){
         num = + num;
@@ -32,25 +33,30 @@ angular.module('starter.controllers', [])
             btn: ['明白了', '知道了']
           });
         }else {
-          var url = G.api + 'config/set_study_num',
-            data = {
-              uid:  localStorage.getItem('uid'),
-              num: num
-            },
-            transFn = function(data) {
-              return $.param(data);
-            },
-            postCfg = {
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-              transformRequest: transFn
-            };
-          $http.post(url, data, postCfg)
-            .success(function(data){
-              $scope.studyNum = num;
-            layer.msg('设置成功');
-          }).error(function(){//失败
-            layer.msg('设置失败');
-          });
+          if(num >= 20 && num <= 80){
+            var url = API.setStudyNum,
+              data = {
+                uid:  localStorage.getItem('uid'),
+                num: num
+              },
+              transFn = function(data) {
+                return $.param(data);
+              },
+              postCfg = {
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                transformRequest: transFn
+              };
+            $http.post(url, data, postCfg)
+              .success(function(data){
+                $scope.studyNum = num;
+                localStorage.setItem('studyNum', num);
+                layer.msg('设置成功');
+              }).error(function(){//失败
+              layer.msg('设置失败');
+            });
+          }else {
+            layer.msg('学习数只能在20~80之间');
+          }
         }
 
       });
