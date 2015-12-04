@@ -1,12 +1,13 @@
 angular.module('starter.controllers', [])
 
-  .controller('WordCtrl', function($scope,$state,$http,G) {
+  .controller('WordCtrl', function($scope,$state,$http,API) {
     $scope.studyNum = 50;
-    $http.get(G.api + 'config/get_study_num?uid='+localStorage.getItem('uid'))
+    $http.get(API.getStudyNum + '?uid='+localStorage.getItem('uid'))
       .success(function(res){//成功
       if(res.result == 1){
         var num = res.data;
         $scope.studyNum = num.studyNum;
+        localStorage.setItem('studyNum',num.studyNum);
       }
     }).error(function(data){
       layer.msg(data)
@@ -56,7 +57,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('StudyCtrl',  function($scope,$sce,getStudyWordFactory){
+  .controller('StudyCtrl',  function($scope,$sce,$http,getStudyWordFactory,API){
     $scope.sce = $sce.trustAsResourceUrl;
     $scope.studyActiveSlide = 0;
     $scope.audio = "http://media.shanbay.com/audio/us/hello.mp3";
@@ -77,6 +78,30 @@ angular.module('starter.controllers', [])
     $scope.playAudio = function(){
       var audio = document.getElementById('audio');
       audio.play();
+    };
+    $scope.nextWord = function(status){
+      var url = API.recordStudy,
+        data = {
+          uid: localStorage.getItem('uid'),
+          word: $scope.wordData.word,
+          status: status
+        },
+        transFn = function(data) {
+          return $.param(data);
+        },
+        postCfg = {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+          transformRequest: transFn
+        };
+      $http.post(url, data, postCfg)
+        .success(function(res){//成功
+          if(res.result == 1){
+            var data = res.data;
+            localStorage.setItem('residueStudy',data.residue);//剩余学习数
+            getStudyWordFactory.getWord();
+          }
+        });
+
     }
   })
 
@@ -93,7 +118,7 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('LoginCtrl', function($scope,$state,$http,G){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
+  .controller('LoginCtrl', function($scope,$state,$http,API){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
     $scope.mobile = '';
     $scope.password = '';
     $scope.login = function(){
@@ -101,7 +126,7 @@ angular.module('starter.controllers', [])
           var password = hex_md5($scope.password);
           var true_mobile = /^1[3,5,8]\d{9}$/;
           if(true_mobile.test($scope.mobile)) {
-            var url = G.api + 'user/login',
+            var url = API.userLogin,
               data = {
                 mobile:  $scope.mobile,
                 password: password
@@ -168,11 +193,13 @@ angular.module('starter.controllers', [])
       $state.go('tab.word');
     }
   })
+
   .controller('RegisterCtrl', function($scope,$state) {
     $scope.register = function(){
       $state.go('login');
     }
   })
+
   .controller('ForgetPasswordCtrl', function($scope,$state) {
 
   })

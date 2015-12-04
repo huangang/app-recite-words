@@ -1,9 +1,8 @@
 angular.module('starter.services', [])
 
-  .factory('getStudyWordFactory',function($rootScope,$resource,G){
-    var apiUrl = G.api;
+  .factory('getStudyWordFactory',function($rootScope,$resource,API){
     var WordData = {};
-    var resource = $resource(apiUrl + 'study/get_word', {}, {
+    var resource = $resource(API.getWord, {}, {
       query: {
         method: 'get',
         params: {

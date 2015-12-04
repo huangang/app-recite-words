@@ -1,10 +1,14 @@
 /**
  * Created by zhg on 15/12/3.
  */
+var url = "http://api.pupued.com/";
 angular.module("starter.config", [])
-  .constant("G", {//不会变的常量
-    //全局变量设置
-    'api': 'http://api.pupued.com/',
-    'version':'1.0.0'
+  .constant("API", {//不会变的常量
+    //API设置
+    'url': url,
+    'getWord': url + 'study/get_word',
+    'getStudyNum': url + 'config/get_study_num',
+    'userLogin' : url + 'user/login',
+    'recordStudy' : url + 'study/record'
   })
 ;
