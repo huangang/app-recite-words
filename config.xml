@@ -76,4 +76,7 @@
   <feature name="Toast">
     <param name="android-package" value="nl.xservices.plugins.Toast" />
   </feature>
+
+
+  <allow-navigation href="http://api.pupued.com" />
 </widget>
