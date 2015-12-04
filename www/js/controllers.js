@@ -73,8 +73,7 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('LoginCtrl', function($scope,$state,$http,G){//web
-//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
+  .controller('LoginCtrl', function($scope,$state,$http,G){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
     $scope.mobile = '';
     $scope.password = '';
     $scope.login = function(){
@@ -95,9 +94,9 @@ angular.module('starter.controllers', [])
                 transformRequest: transFn
               };
             $http.post(url, data, postCfg)
-              .success(function(data){//成功
-              if(data.result == 1){
-                var user = data.data;
+              .success(function(res){//成功
+              if(res.result == 1){
+                var user = res.data;
                 localStorage.setItem("uid", user.id );
                 localStorage.setItem("openid", user.openid );
                 localStorage.setItem("nickname", user.nickname );
@@ -111,7 +110,6 @@ angular.module('starter.controllers', [])
             }).error(function(data){//失败
               layer.msg('登录失败');
             });
-
           }
           else {
             layer.msg('手机号非法');
