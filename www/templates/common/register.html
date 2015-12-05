@@ -1,8 +1,12 @@
+<script src="js/md5.js"></script>
 <ion-view view-title="注册">
   <ion-content ng-controller="RegisterCtrl">
     <div class="list list-inset">
       <label class="item item-input">
-        <input type="text" placeholder="手机" ng-model="account">
+        <input type="number" placeholder="手机" ng-model="mobile">
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="昵称" ng-model="nickname">
       </label>
       <label class="item item-input">
         <input type="password" placeholder="密码" ng-model="password">

@@ -5,11 +5,13 @@ var url = "http://api.pupued.com/";
 angular.module("starter.config", [])
   .constant("API", {//不会变的常量
     //API设置
-    'url': url,
-    'getWord': url + 'study/get_word',
-    'getStudyNum': url + 'config/get_study_num',
-    'userLogin' : url + 'user/login',
+    'url'         : url,
+    'getWord'     : url + 'study/get_word',
+    'getStudyNum' : url + 'config/get_study_num',
+    'userLogin'   : url + 'user/login',
     'recordStudy' : url + 'study/record',
     'setStudyNum' : url + 'config/set_study_num',
+    'defaultHead' : 'http://7xox90.com1.z0.glb.clouddn.com/img/default-head.png',
+    'registerUser': url + 'user/register',
   })
 ;
