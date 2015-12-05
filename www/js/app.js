@@ -71,7 +71,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
     templateUrl: 'templates/tabs.html'
   })
 
-
     .state('login',{
       url:'/login',
       templateUrl: 'templates/common/login.html',
@@ -95,7 +94,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
       controller: 'ForgetPasswordCtrl'
     })
 
-
     // Each tab has its own nav history stack:
     .state('tab.word', {
     url: '/word',
@@ -106,6 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
       }
     }
   })
+
     .state('tab.study', {
       url: '/study',
       views: {
@@ -125,6 +124,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
         }
       }
     })
+
     .state('tab.more', {
     url: '/more',
     views: {
@@ -147,3 +147,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
 
 
 });
+
+
+

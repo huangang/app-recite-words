@@ -6,6 +6,9 @@
   border-radius: 50%;
   margin: 0 auto;
 }
+#study-num{
+  padding: 29% 29%;
+}
 .study-header{
   text-align: center;
 }

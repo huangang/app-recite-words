@@ -1,19 +1,34 @@
 angular.module('starter.controllers', [])
 
   .controller('WordCtrl', function($scope,$state,$http,API) {
-    $scope.studyNum = 50;
+    $scope.studyNum =
+      (localStorage.getItem('studyNum') != null &&  localStorage.getItem('studyNum') != '')
+        ? localStorage.getItem('studyNum') : 50;
     $http.get(API.getStudyNum + '?uid='+localStorage.getItem('uid'))
       .success(function(res){//成功
       if(res.result == 1){
         var num = res.data;
         $scope.studyNum = num.studyNum;
         localStorage.setItem('studyNum',num.studyNum);
-        localStorage.setItem('residueStudy',num.residueNum);
+        localStorage.setItem('nowStudyNum',num.nowStudyNum);
       }
     }).error(function(data){
       layer.msg(data)
     });
-      $scope.startStudy = function(){
+    var total = localStorage.getItem('studyNum'),
+      nowNum = localStorage.getItem('nowStudyNum');
+    if(nowNum > 0){
+      $scope.studyMsg = '继续学习';
+    }else {
+      $scope.studyMsg = '开始学习';
+
+    }
+    if(nowNum > total){
+      $scope.rangeValue = 100;
+    }else {
+      $scope.rangeValue = parseInt((nowNum / total ) * 100);
+    }
+    $scope.startStudy = function(){
         $state.go('tab.study');
       };
     layer.use('extend/layer.ext.js', function(){
@@ -103,7 +118,7 @@ angular.module('starter.controllers', [])
         .success(function(res){//成功
           if(res.result == 1){
             var data = res.data;
-            localStorage.setItem('residueStudy',data.residue);//剩余学习数
+            localStorage.setItem('nowStudyNum',data.nowStudyNum);//剩余学习数
             getStudyWordFactory.getWord();
           }
         });

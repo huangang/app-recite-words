@@ -5,19 +5,25 @@
 
      <div class="item item-content assertive">
        <div class="study-plane">
-         <h1 style="padding: 29% 29%;">{{studyNum}}</h1>
+         <h1 id="study-num">{{studyNum}}</h1>
        </div>
      </div>
+    <div class="list">
+      <div class="item range range-positive">
+        <i class="icon ion-ios-sunny-outline"></i>
+        <input type="range" name="volume" min="0" max="100" value="{{rangeValue}}">
+        <i class="icon ion-ios-sunny"></i>
+      </div>
+    </div>
       <a class="item item-icon-left assertive" href="javascript:;">
         <i class="icon ion-ios-pricetags"></i>
         <div ng-click="adjustPlan()">调整计划</div>
       </a>
 
-
     </div>
 
     <button class="button button-block button-positive" ng-click="startStudy()">
-      开始学习
+      {{studyMsg}}
     </button>
     <button class="button button-block button-stable activated">
       巩固熟词
