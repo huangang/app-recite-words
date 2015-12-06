@@ -1,81 +1,33 @@
 angular.module('starter.controllers', [])
 
   .controller('WordCtrl', function($scope,$state,$http,API) {
-    $scope.studyNum =
-      (localStorage.getItem('studyNum') != null &&  localStorage.getItem('studyNum') != '')
-        ? localStorage.getItem('studyNum') : 50;
+    $scope.nowStudyNum =
+      (localStorage.getItem('nowStudyNum') != null &&  localStorage.getItem('nowStudyNum') != '')
+        ? localStorage.getItem('nowStudyNum') : 0;
     $http.get(API.getStudyNum + '?uid='+localStorage.getItem('uid'))
       .success(function(res){//成功
       if(res.result == 1){
         var num = res.data;
-        $scope.studyNum = num.studyNum;
-        localStorage.setItem('studyNum',num.studyNum);
+        $scope.nowStudyNum = num.nowStudyNum;
         localStorage.setItem('nowStudyNum',num.nowStudyNum);
       }
     }).error(function(data){
       layer.msg(data)
     });
-    var total = localStorage.getItem('studyNum'),
-      nowNum = localStorage.getItem('nowStudyNum');
-    if(nowNum > 0){
+    if(localStorage.getItem('nowStudyNum') > 0){
       $scope.studyMsg = '继续学习';
     }else {
       $scope.studyMsg = '开始学习';
 
     }
-    if(nowNum > total){
-      $scope.rangeValue = 100;
-    }else {
-      $scope.rangeValue = parseInt((nowNum / total ) * 100);
-    }
     $scope.startStudy = function(){
         $state.go('tab.study');
       };
-    layer.use('extend/layer.ext.js', function(){
-      layer.ext = function(){
-        layer.prompt({})
-      };
-    });
-    $scope.adjustPlan = function(){
-      layer.prompt({
-        title: '请输入新的学习计划(20~80)',
-        formType: 0 //prompt风格，支持0-2
-      }, function(num){
-        num = + num;
-        if(isNaN(num) ){
-          layer.msg('只能填写数字类型', {
-            time: 20000, //20s后自动关闭
-            btn: ['明白了', '知道了']
-          });
-        }else {
-          if(num >= 20 && num <= 80){
-            var url = API.setStudyNum,
-              data = {
-                uid:  localStorage.getItem('uid'),
-                num: num
-              },
-              transFn = function(data) {
-                return $.param(data);
-              },
-              postCfg = {
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-                transformRequest: transFn
-              };
-            $http.post(url, data, postCfg)
-              .success(function(data){
-                $scope.studyNum = num;
-                localStorage.setItem('studyNum', num);
-                layer.msg('设置成功');
-              }).error(function(){//失败
-              layer.msg('设置失败');
-            });
-          }else {
-            layer.msg('学习数只能在20~80之间');
-          }
-        }
-
-      });
-    }
+    //layer.use('extend/layer.ext.js', function(){
+    //  layer.ext = function(){
+    //    layer.prompt({})
+    //  };
+    //});
   })
 
   .controller('StudyCtrl',  function($scope,$sce,$http,getStudyWordFactory,API){
