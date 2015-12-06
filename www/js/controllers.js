@@ -1,25 +1,28 @@
 angular.module('starter.controllers', [])
 
   .controller('WordCtrl', function($scope,$state,$http,API) {
-    $scope.nowStudyNum =
-      (localStorage.getItem('nowStudyNum') != null &&  localStorage.getItem('nowStudyNum') != '')
-        ? localStorage.getItem('nowStudyNum') : 0;
-    $http.get(API.getStudyNum + '?uid='+localStorage.getItem('uid'))
-      .success(function(res){//成功
-      if(res.result == 1){
-        var num = res.data;
-        $scope.nowStudyNum = num.nowStudyNum;
-        localStorage.setItem('nowStudyNum',num.nowStudyNum);
-      }
-    }).error(function(data){
-      layer.msg(data)
-    });
-    if(localStorage.getItem('nowStudyNum') > 0){
-      $scope.studyMsg = '继续学习';
-    }else {
-      $scope.studyMsg = '开始学习';
+    $scope.$on( "$ionicView.enter", function() {
+      $scope.nowStudyNum =
+        (localStorage.getItem('nowStudyNum') != null &&  localStorage.getItem('nowStudyNum') != '')
+          ? localStorage.getItem('nowStudyNum') : 0;
+      $http.get(API.getStudyNum + '?uid='+localStorage.getItem('uid'))
+        .success(function(res){//成功
+          if(res.result == 1){
+            var num = res.data;
+            $scope.nowStudyNum = num.nowStudyNum;
+            localStorage.setItem('nowStudyNum',num.nowStudyNum);
+          }
+        }).error(function(data){
+        layer.msg(data)
+      });
+      if(localStorage.getItem('nowStudyNum') > 0){
+        $scope.studyMsg = '继续学习';
+      }else {
+        $scope.studyMsg = '开始学习';
 
-    }
+      }
+    });
+
     $scope.startStudy = function(){
         $state.go('tab.study');
       };
@@ -70,11 +73,10 @@ angular.module('starter.controllers', [])
         .success(function(res){//成功
           if(res.result == 1){
             var data = res.data;
-            localStorage.setItem('nowStudyNum',data.nowStudyNum);//剩余学习数
+            localStorage.setItem('nowStudyNum',data.nowStudyNum);//一句学习数
             getStudyWordFactory.getWord();
           }
         });
-
     }
   })
 
