@@ -118,8 +118,8 @@ angular.module('starter.controllers', [])
   })
 
   .controller('LoginCtrl', function($scope,$state,$http,API){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
-    $scope.$on( "$ionicView.enter", function() {
-      if(!isNull(localStorage.getItem('uid') && !isNull(localStorage.getItem('nickname')))){
+    $scope.$on( "$ionicView.enter", function(){
+      if(localStorage.getItem('uid') && localStorage.getItem('nickname') ){
         $state.go('tab.word');
       }
     });
