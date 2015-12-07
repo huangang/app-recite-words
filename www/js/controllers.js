@@ -80,8 +80,10 @@ angular.module('starter.controllers', [])
   })
 
   .controller('MeCtrl', function($scope,$state) {
-    $scope.nickname = localStorage.getItem('nickname');
-    $scope.head = localStorage.getItem('head');
+    $scope.$on( "$ionicView.enter", function(){
+      $scope.nickname = localStorage.getItem('nickname');
+      $scope.head = localStorage.getItem('head');
+    });
     $scope.exit = function(){
       localStorage.clear();
       $state.go('login');
@@ -149,7 +151,7 @@ angular.module('starter.controllers', [])
               localStorage.setItem("uid", user.id );
               localStorage.setItem("openid", user.openid );
               localStorage.setItem("nickname", user.nickname );
-              (user.head == '') ?localStorage.setItem("head", API.defaultHead ) : localStorage.setItem("head", user.head );
+              (user.head == '' || user.head == null) ? localStorage.setItem("head", API.defaultHead ) : localStorage.setItem("head", user.head );
               $scope.mobile = '';
               $scope.password = '';
               $state.go('tab.word');
