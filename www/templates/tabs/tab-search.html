@@ -1,7 +1,20 @@
 <ion-view view-title="单词搜索">
   <ion-content ng-controller="SearchCtrl">
-
-  111111
+    <div class="bar bar-header item-input-inset">
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios-search placeholder-icon"></i>
+        <input type="search" placeholder="搜索" ng-change="searchWord()" ng-model="content" >
+      </label>
+      <button class="button button-clear">
+        取消
+      </button>
+    </div>
+    <div class="list" ng-repeat="data in datas">
+      <a class="item" href="javascript:;">
+        <h2>{{data.word}}</h2>
+        <p style="white-space: normal;">{{data.explain}}</p>
+      </a>
+    </div>
   </ion-content >
 
 </ion-view>

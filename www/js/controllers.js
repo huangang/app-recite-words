@@ -7,7 +7,7 @@ angular.module('starter.controllers', [])
           ? localStorage.getItem('nowStudyNum') : 0;
       $http.get(API.getStudyNum + '?uid='+localStorage.getItem('uid'))
         .success(function(res){//成功
-          if(res.result == 1){
+          if(res.result == API.success){
             var num = res.data;
             $scope.nowStudyNum = num.nowStudyNum;
             localStorage.setItem('nowStudyNum',num.nowStudyNum);
@@ -36,19 +36,18 @@ angular.module('starter.controllers', [])
   .controller('StudyCtrl',  function($scope,$sce,$http,getStudyWordFactory,API){
     $scope.sce = $sce.trustAsResourceUrl;
     $scope.studyActiveSlide = 0;
-    $scope.audio = "http://media.shanbay.com/audio/us/hello.mp3";
+    $scope.audio = "";
     //获取服务器数据保存
     getStudyWordFactory.getWord();
     //接收到刚才传过来的通知
     $scope.$on('StudyWord', function() {
       $scope.wordData = getStudyWordFactory.getWordData();
       $scope.audio = $scope.wordData.audio;
-      if($scope.wordData.example != ''){
+      $scope.wordData.example = "无例子";
+      if($scope.wordData.example != '') {
         var str = $scope.wordData.example;
         var re = /(\/r\/n)/g;
-        $scope.wordData.example = str.replace(re,"\n");
-      }else {
-        $scope.wordData.example = "无例子";
+        $scope.wordData.example = str.replace(re, "\n");
       }
     });
     $scope.playAudio = function(){
@@ -71,7 +70,7 @@ angular.module('starter.controllers', [])
         };
       $http.post(url, data, postCfg)
         .success(function(res){//成功
-          if(res.result == 1){
+          if(res.result == API.success){
             var data = res.data;
             localStorage.setItem('nowStudyNum',data.nowStudyNum);//一句学习数
             getStudyWordFactory.getWord();
@@ -81,13 +80,13 @@ angular.module('starter.controllers', [])
   })
 
   .controller('MeCtrl', function($scope,$state) {
-  $scope.nickname = localStorage.getItem('nickname');
-  $scope.head = localStorage.getItem('head');
-  $scope.exit = function(){
-    localStorage.clear();
-    $state.go('login');
-  }
-})
+    $scope.nickname = localStorage.getItem('nickname');
+    $scope.head = localStorage.getItem('head');
+    $scope.exit = function(){
+      localStorage.clear();
+      $state.go('login');
+    }
+  })
 
   .controller('MoreCtrl', function($scope,$state) {
     $scope.toSearch = function(){
@@ -95,8 +94,27 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('SearchCtrl', function($scope) {
-
+  .controller('SearchCtrl', function($scope,$http,API) {
+    $scope.content = '';
+    $scope.datas  = new Array();
+    var length = 0;
+    $scope.searchWord = function(){
+      if(length < $scope.content.length){
+        $http.get(API.searchWord + '?word=' + $scope.content)
+          .success(function(res){//成功
+            if(res.result == API.success){
+              var data = res.data;
+              $scope.datas.add(data);
+            }
+          });
+      }else {
+        $scope.datas = [];
+      }
+      length = $scope.content.length;
+      if(length == 0){
+        $scope.datas = [];
+      }
+    }
   })
 
   .controller('LoginCtrl', function($scope,$state,$http,API){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
@@ -126,7 +144,7 @@ angular.module('starter.controllers', [])
             };
           $http.post(url, data, postCfg)
             .success(function(res){//成功
-            if(res.result == 1){
+            if(res.result == API.success){
               var user = res.data;
               localStorage.setItem("uid", user.id );
               localStorage.setItem("openid", user.openid );
@@ -222,7 +240,7 @@ angular.module('starter.controllers', [])
         };
       $http.post(url, data, postCfg)
         .success(function(res){//成功
-          if(res.result == 1){
+          if(res.result == API.success){
             var user = res.data;
             localStorage.setItem("uid", user.id );
             localStorage.setItem("nickname", user.nickname );
@@ -248,7 +266,7 @@ angular.module('starter.controllers', [])
 
 ;
 
-
+//扩展
 /**
  * 判断是否null
  * @param data
@@ -256,3 +274,7 @@ angular.module('starter.controllers', [])
 function isNull(data){
   return (data == "" || data == undefined || data == null) ? false : data;
 }
+
+Array.prototype.add = function (item) {
+  this.splice(0, 0, item);
+};
