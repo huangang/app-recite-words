@@ -89,62 +89,73 @@ angular.module('starter.controllers', [])
   }
 })
 
-  .controller('MoreCtrl', function($scope) {
+  .controller('MoreCtrl', function($scope,$state) {
+    $scope.toSearch = function(){
+      $state.go('tab.search');
+    }
+  })
+
+  .controller('SearchCtrl', function($scope) {
 
   })
 
   .controller('LoginCtrl', function($scope,$state,$http,API){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
+    $scope.$on( "$ionicView.enter", function() {
+      if(!isNull(localStorage.getItem('uid') && !isNull(localStorage.getItem('nickname')))){
+        $state.go('tab.word');
+      }
+    });
     $scope.mobile = '';
     $scope.password = '';
     $scope.login = function(){
-        if($scope.mobile != '' && $scope.password != ''){
-          var password = hex_md5($scope.password);
-          var true_mobile = /^1[3,5,8]\d{9}$/;
-          if(true_mobile.test($scope.mobile)) {
-            var url = API.userLogin,
-              data = {
-                mobile:  $scope.mobile,
-                password: password
-              },
-              transFn = function(data) {
-                return $.param(data);
-              },
-              postCfg = {
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-                transformRequest: transFn
-              };
-            $http.post(url, data, postCfg)
-              .success(function(res){//成功
-              if(res.result == 1){
-                var user = res.data;
-                localStorage.setItem("uid", user.id );
-                localStorage.setItem("openid", user.openid );
-                localStorage.setItem("nickname", user.nickname );
-                (user.head == '') ?localStorage.setItem("head", API.defaultHead ) : localStorage.setItem("head", user.head );
-                $scope.mobile = '';
-                $scope.password = '';
-                $state.go('tab.word');
-              }else {
-                layer.msg('登录失败');
-              }
-            }).error(function(data){//失败
+      if($scope.mobile != '' && $scope.password != ''){
+        var password = hex_md5($scope.password);
+        var true_mobile = /^1[3,5,8]\d{9}$/;
+        if(true_mobile.test($scope.mobile)) {
+          var url = API.userLogin,
+            data = {
+              mobile:  $scope.mobile,
+              password: password
+            },
+            transFn = function(data) {
+              return $.param(data);
+            },
+            postCfg = {
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+              transformRequest: transFn
+            };
+          $http.post(url, data, postCfg)
+            .success(function(res){//成功
+            if(res.result == 1){
+              var user = res.data;
+              localStorage.setItem("uid", user.id );
+              localStorage.setItem("openid", user.openid );
+              localStorage.setItem("nickname", user.nickname );
+              (user.head == '') ?localStorage.setItem("head", API.defaultHead ) : localStorage.setItem("head", user.head );
+              $scope.mobile = '';
+              $scope.password = '';
+              $state.go('tab.word');
+            }else {
               layer.msg('登录失败');
-            });
-          }
-          else {
-            layer.msg('手机号非法');
-          }
-        }else if($scope.mobile == '' && $scope.password != ''){
-          layer.msg('手机号不能为空');//web
-          //$cordovaToast.showShortCenter('手机号不能为空');//app
-        }else if($scope.mobile != '' && $scope.password == ''){
-          layer.msg('密码不能为空');
-          //$cordovaToast.showShortCenter('密码不能为空');//app
-        }else{
-          layer.msg('手机和密码不能为空');
-          //$cordovaToast.showShortCenter('手机和密码不能为空');//app
+            }
+          }).error(function(data){//失败
+            layer.msg('登录失败');
+          });
         }
-      };
+        else {
+          layer.msg('手机号非法');
+        }
+      }else if($scope.mobile == '' && $scope.password != ''){
+        layer.msg('手机号不能为空');//web
+        //$cordovaToast.showShortCenter('手机号不能为空');//app
+      }else if($scope.mobile != '' && $scope.password == ''){
+        layer.msg('密码不能为空');
+        //$cordovaToast.showShortCenter('密码不能为空');//app
+      }else{
+        layer.msg('手机和密码不能为空');
+        //$cordovaToast.showShortCenter('手机和密码不能为空');//app
+      }
+    };
     $scope.register = function(){
       $state.go('register');
     };
@@ -236,3 +247,12 @@ angular.module('starter.controllers', [])
   })
 
 ;
+
+
+/**
+ * 判断是否null
+ * @param data
+ */
+function isNull(data){
+  return (data == "" || data == undefined || data == null) ? false : data;
+}

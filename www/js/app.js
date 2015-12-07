@@ -125,6 +125,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
       }
     })
 
+    .state('tab.search', {
+      url: '/search',
+      views: {
+        'tab-more': {
+          templateUrl: 'templates/tabs/tab-search.html',
+          controller: 'SearchCtrl'
+        }
+      }
+    })
+
     .state('tab.more', {
     url: '/more',
     views: {
@@ -133,7 +143,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
         controller: 'MoreCtrl'
       }
     }
-  });
+  })
+
+  ;
 
   // if none of the above states are matched, use this as the fallback
     var  uid = localStorage.getItem("uid");
