@@ -7,8 +7,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','starter.services','ngResource','ngCordova'])
 
-  .run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory) {
-  $ionicPlatform.ready(function() {
+  .run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory,$ionicPopup) {
+    $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -22,7 +22,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
     }
 
   });
-
+    $rootScope.msg = function(msg){
+      var time = arguments[1] ? arguments[1] : 2000;
+      var popup = $ionicPopup.show({
+        title: msg,
+        scope: $rootScope,
+      });
+      $timeout(function() {
+        popup.close(); //由于某种原因2秒后关闭弹出
+      }, time);
+    };
 
     //双击退出
     $ionicPlatform.registerBackButtonAction(function (e) {
@@ -33,8 +42,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
           ionic.Platform.exitApp();
         } else {
           $rootScope.backButtonPressedOnceToExit = true;
-          layer.msg('再按一次退出应用');//web
-          //$cordovaToast.showShortCenter('再按一次退出应用');//app
+          $rootScope.msg('再按一次退出应用');
           setTimeout(function () {
             $rootScope.backButtonPressedOnceToExit = false;
           }, 2000);
@@ -44,8 +52,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
         $ionicHistory.goBack();
       } else {
         $rootScope.backButtonPressedOnceToExit = true;
-        layer.msg('再按一次退出应用');//web
-        //$cordovaToast.showShortCenter('再按一次退出应用');//app
+        $rootScope.msg('再按一次退出应用');
         setTimeout(function () {
           $rootScope.backButtonPressedOnceToExit = false;
         }, 2000);
