@@ -7,8 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','starter.services','ngResource','ngCordova'])
 
-  //.run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory,$cordovaToast) {//app
-  .run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory) {//web
+  .run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

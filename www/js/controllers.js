@@ -125,7 +125,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('LoginCtrl', function($scope,$state,$ionicPopup,$timeout,$http,API){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
+  .controller('LoginCtrl', function($scope,$state,$ionicPopup,$timeout,$http,API){
     $scope.$on( "$ionicView.enter", function(){
       if(localStorage.getItem('uid') && localStorage.getItem('nickname') ){
         $state.go('tab.word');
@@ -303,3 +303,4 @@ function isNull(data){
 Array.prototype.add = function (item) {
   this.splice(0, 0, item);
 };
+
