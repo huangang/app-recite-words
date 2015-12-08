@@ -43,11 +43,12 @@ angular.module('starter.controllers', [])
     $scope.$on('StudyWord', function() {
       $scope.wordData = getStudyWordFactory.getWordData();
       $scope.audio = $scope.wordData.audio;
-      $scope.wordData.example = "无例子";
       if($scope.wordData.example != '') {
         var str = $scope.wordData.example;
         var re = /(\/r\/n)/g;
         $scope.wordData.example = str.replace(re, "\n");
+      }else {
+        $scope.wordData.example = "无例子";
       }
     });
     $scope.playAudio = function(){
