@@ -1,6 +1,16 @@
 angular.module('starter.controllers', [])
 
-  .controller('WordCtrl', function($scope,$state,$http,API) {
+  .controller('WordCtrl', function($scope,$state,$http,API,$ionicPopup,$timeout) {
+    $scope.msg = function(msg){
+      var time = arguments[1] ? arguments[1] : 2000;
+      var popup = $ionicPopup.show({
+        title: msg,
+        scope: $scope,
+      });
+      $timeout(function() {
+        popup.close(); //由于某种原因2秒后关闭弹出
+      }, time);
+    };
     $scope.$on( "$ionicView.enter", function() {
       $scope.nowStudyNum =
         (localStorage.getItem('nowStudyNum') != null &&  localStorage.getItem('nowStudyNum') != '')
@@ -13,7 +23,7 @@ angular.module('starter.controllers', [])
             localStorage.setItem('nowStudyNum',num.nowStudyNum);
           }
         }).error(function(data){
-        layer.msg(data)
+        $scope.msg(data, 1000)
       });
       if(localStorage.getItem('nowStudyNum') > 0){
         $scope.studyMsg = '继续学习';
@@ -26,11 +36,6 @@ angular.module('starter.controllers', [])
     $scope.startStudy = function(){
         $state.go('tab.study');
       };
-    //layer.use('extend/layer.ext.js', function(){
-    //  layer.ext = function(){
-    //    layer.prompt({})
-    //  };
-    //});
   })
 
   .controller('StudyCtrl',  function($scope,$sce,$http,getStudyWordFactory,API){
@@ -120,7 +125,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('LoginCtrl', function($scope,$state,$http,API){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
+  .controller('LoginCtrl', function($scope,$state,$ionicPopup,$timeout,$http,API){//web//.controller('LoginCtrl', function($scope,$state,$cordovaToast){//app
     $scope.$on( "$ionicView.enter", function(){
       if(localStorage.getItem('uid') && localStorage.getItem('nickname') ){
         $state.go('tab.word');
@@ -128,6 +133,16 @@ angular.module('starter.controllers', [])
     });
     $scope.mobile = '';
     $scope.password = '';
+    $scope.msg = function(msg){
+      var time = arguments[1] ? arguments[1] : 2000;
+      var popup = $ionicPopup.show({
+        title: msg,
+        scope: $scope,
+      });
+      $timeout(function() {
+        popup.close(); //由于某种原因2秒后关闭弹出
+      }, time);
+    };
     $scope.login = function(){
       if($scope.mobile != '' && $scope.password != ''){
         var password = hex_md5($scope.password);
@@ -157,23 +172,23 @@ angular.module('starter.controllers', [])
               $scope.password = '';
               $state.go('tab.word');
             }else {
-              layer.msg('登录失败');
+              $scope.msg('登录失败');
             }
-          }).error(function(data){//失败
-            layer.msg('登录失败');
+          }).error(function(){//失败
+            $scope.msg('登录失败');
           });
         }
         else {
-          layer.msg('手机号非法');
+          $scope.msg('手机号非法');
         }
       }else if($scope.mobile == '' && $scope.password != ''){
-        layer.msg('手机号不能为空');//web
+        $scope.msg('手机号不能为空');//web
         //$cordovaToast.showShortCenter('手机号不能为空');//app
       }else if($scope.mobile != '' && $scope.password == ''){
-        layer.msg('密码不能为空');
+        $scope.msg('密码不能为空');
         //$cordovaToast.showShortCenter('密码不能为空');//app
       }else{
-        layer.msg('手机和密码不能为空');
+        $scope.msg('手机和密码不能为空', 1000);
         //$cordovaToast.showShortCenter('手机和密码不能为空');//app
       }
     };
@@ -186,7 +201,6 @@ angular.module('starter.controllers', [])
 })
 
   .controller('WxLoginCtrl', function($scope,$state,$location){
-    layer.load();
     var openid = $location.search()['openid'];
     var uid = $location.search()['uid'];
     var nickname = $location.search()['nickname'];
@@ -197,33 +211,41 @@ angular.module('starter.controllers', [])
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("head", head);
       (head == '') ? localStorage.setItem("head", API.defaultHead ) : localStorage.setItem("head", head );
-      layer.closeAll('loading');
       $state.go('tab.word');
     }
   })
 
-  .controller('RegisterCtrl', function($scope,$state,$http,API) {
+  .controller('RegisterCtrl', function($scope,$state,$http,API,$ionicPopup,$timeout) {
     $scope.nickname = '';
     $scope.mobile = '';
     $scope.password = '';
-
+    $scope.msg = function(msg){
+      var time = arguments[1] ? arguments[1] : 2000;
+      var popup = $ionicPopup.show({
+        title: msg,
+        scope: $scope,
+      });
+      $timeout(function() {
+        popup.close(); //由于某种原因2秒后关闭弹出
+      }, time);
+    };
     $scope.register = function(){
       if($scope.nickname == ''){
-        layer.msg('用户名不能为空');
+        $scope.msg('用户名不能为空');
         return;
       }
       if($scope.mobile == ''){
-        layer.msg('手机号不能为空');
+        $scope.msg('手机号不能为空');
         return;
       }else {
         var true_mobile = /^1[3,5,8]\d{9}$/;
         if(!true_mobile.test($scope.mobile)) {
-          layer.msg('手机号非法');
+          $scope.msg('手机号非法');
           return;
         }
       }
       if($scope.password == ''){
-        layer.msg('密码不能为空');
+        $scope.msg('密码不能为空');
         return;
       }else {
         $scope.password = hex_md5($scope.password);
@@ -251,13 +273,13 @@ angular.module('starter.controllers', [])
             $scope.mobile = '';
             $scope.password = '';
             $scope.password = '';
-            layer.msg('注册成功');
+            $scope.msg('注册成功',1000);
             $state.go('tab.word');
           }else {
-            layer.msg(res.data.msg);
+            $scope.msg(res.data.msg,1000);
           }
         }).error(function(){
-        layer.msg('注册失败');
+        $scope.msg('注册失败',1000);
       });
 
     }
