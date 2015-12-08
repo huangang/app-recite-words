@@ -23,13 +23,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
 
   });
     $rootScope.msg = function(msg){
-      var time = arguments[1] ? arguments[1] : 1000;
+      var time = arguments[1] ? arguments[1] : 500;
       var popup = $ionicPopup.show({
         title: msg,
         scope: $rootScope,
       });
       $timeout(function() {
-        popup.close(); //由于某种原因2秒后关闭弹出
+        popup.close(); //由于某种原因0.5秒后关闭弹出
       }, time);
     };
 
