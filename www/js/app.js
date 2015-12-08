@@ -23,7 +23,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
 
   });
     $rootScope.msg = function(msg){
-      var time = arguments[1] ? arguments[1] : 2000;
+      var time = arguments[1] ? arguments[1] : 1000;
       var popup = $ionicPopup.show({
         title: msg,
         scope: $rootScope,
