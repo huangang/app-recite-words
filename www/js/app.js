@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','starter.services','ngResource','ngCordova'])
 
-  .run(function ($ionicPlatform, $rootScope, $location, $timeout, $ionicHistory,$ionicPopup) {
+  .run(function ($ionicPlatform, $rootScope, $location, $ionicHistory,$ionicPopup) {
     $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -22,40 +22,35 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
     }
 
   });
-    $rootScope.msg = function(msg){
-      var time = arguments[1] ? arguments[1] : 500;
-      var popup = $ionicPopup.show({
-        title: msg,
-        scope: $rootScope,
+    //  confirm 对话框
+    $rootScope.showConfirm = function() {
+      var confirmPopup = $ionicPopup.confirm({
+        title: '提示',
+        template: '确认退出应用?',
+        cancelText : '取消',
+        okText: '确认',
       });
-      $timeout(function() {
-        popup.close(); //由于某种原因0.5秒后关闭弹出
-      }, time);
-    };
-
-    //双击退出
-    $ionicPlatform.registerBackButtonAction(function (e) {
-      console.log($location.path());
-      //判断处于哪个页面时双击退出
-      if ($location.path() == '/login' || $location.path() == '/tab/word' ||  $location.path() == '/tab/me' || $location.path() == '/tab/more' ) {
-        if ($rootScope.backButtonPressedOnceToExit) {
+      confirmPopup.then(function(res) {
+        if(res) {
+          console.log('yes');
           ionic.Platform.exitApp();
         } else {
-          $rootScope.backButtonPressedOnceToExit = true;
-          $rootScope.msg('再按一次退出应用');
-          setTimeout(function () {
-            $rootScope.backButtonPressedOnceToExit = false;
-          }, 2000);
+          console.log('no');
         }
+      });
+    };
+
+
+    //确认退出
+    $ionicPlatform.registerBackButtonAction(function (e) {
+      //判断处于哪个页面时双击退出
+      if ($location.path() == '/login' || $location.path() == '/tab/word' ||  $location.path() == '/tab/me' || $location.path() == '/tab/more' ) {
+        $rootScope.showConfirm();
       }
       else if ($ionicHistory.backView()) {
         $ionicHistory.goBack();
       } else {
-        $rootScope.backButtonPressedOnceToExit = true;
-        $rootScope.msg('再按一次退出应用');
-        setTimeout(function () {
-          $rootScope.backButtonPressedOnceToExit = false;
-        }, 2000);
+        $rootScope.showConfirm();
       }
       e.preventDefault();
       return false;
