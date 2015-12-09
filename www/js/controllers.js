@@ -200,7 +200,16 @@ angular.module('starter.controllers', [])
     };
 })
 
-  .controller('WxLoginCtrl', function($scope,$state,$location){
+  .controller('WxLoginCtrl', function($scope,$state,$location,$ionicLoading){
+    $scope.show = function() {
+      $ionicLoading.show({
+        template: 'Loading...'
+      });
+    };
+    $scope.hide = function(){
+      $ionicLoading.hide();
+    };
+    $scope.show();
     var openid = $location.search()['openid'];
     var uid = $location.search()['uid'];
     var nickname = $location.search()['nickname'];
@@ -211,6 +220,7 @@ angular.module('starter.controllers', [])
       localStorage.setItem("nickname", nickname);
       localStorage.setItem("head", head);
       (head == '') ? localStorage.setItem("head", API.defaultHead ) : localStorage.setItem("head", head );
+      $scope.hide();
       $state.go('tab.word');
     }
   })
