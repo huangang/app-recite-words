@@ -16,5 +16,6 @@ angular.module("starter.config", [])
     'searchWord'   : url + 'study/search_word',//搜索单词
     'dailySentence': url + 'study/daily_sentence',//每日一句
     'translation'  : url + 'study/translation',//翻译
+    'statistics'   : url + 'study/statistics',//学习统计
   })
 ;

@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
       var time = arguments[1] ? arguments[1] : 2000;
       var popup = $ionicPopup.show({
         title: msg,
-        scope: $scope,
+        scope: $scope
       });
       $timeout(function() {
         popup.close(); //由于某种原因2秒后关闭弹出
@@ -117,6 +117,9 @@ angular.module('starter.controllers', [])
     };
     $scope.toTranslation = function(){
       $state.go('tab.translation');
+    };
+    $scope.toStatistics = function(){
+      $state.go('tab.statistics');
     }
   })
 
@@ -140,11 +143,32 @@ angular.module('starter.controllers', [])
             console.log(res);
             $scope.translation = data.translation[0];
           }
-        }).error(function(data){
-        $scope.msg(data, 1000)
+        }).error(function(){
       });
     }
   })
+
+  .controller('StatisticsCtrl', function($scope,$http,API) {
+    $scope.$on( "$ionicView.enter", function() {
+      $scope.nickname = localStorage.getItem('nickname');
+      $scope.head = localStorage.getItem('head');
+      var myDate = new Date();
+      $scope.time = myDate.toLocaleString( );        //获取日期与时间
+      $http.get(API.statistics + '?uid=' + localStorage.getItem('uid'))
+        .success(function(res){//成功
+          if(res.result == API.success){
+            var data = res.data;
+            $scope.day = data.day;
+            $scope.week = data.week;
+            $scope.month = data.month;
+            $scope.year = data.year;
+            $scope.all = data.all;
+          }
+        }).error(function(data){
+      });
+    });
+  })
+
 
   .controller('MoreCtrl', function($scope,$state) {
 

@@ -146,6 +146,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
       }
     })
 
+    .state('tab.statistics', {
+      url: '/statistics',
+      views: {
+        'tab-me': {
+          templateUrl: 'templates/tabs/tab-statistics.html',
+          controller: 'StatisticsCtrl'
+        }
+      }
+    })
+
     .state('tab.more', {
     url: '/more',
     views: {

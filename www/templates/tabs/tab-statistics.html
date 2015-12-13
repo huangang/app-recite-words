@@ -1,0 +1,27 @@
+<ion-view view-title="学习统计">
+  <ion-content>
+    <div class="list card">
+      <div class="item item-avatar">
+        <img src="{{head}}">
+        <h2>{{nickname}}</h2>
+        <p>截止{{time}}</p>
+      </div>
+
+      <div class="item item-body">
+        <p>
+          本日学习量:{{day}},<br>
+          本周学习量:{{week}},<br>
+          本月学习量:{{month}},<br>
+          本年学习量:{{year}},<br>
+        </p>
+      </div>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#">
+          <i class="icon ion-share"></i>
+          Share
+        </a>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
