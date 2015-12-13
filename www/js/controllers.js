@@ -111,13 +111,43 @@ angular.module('starter.controllers', [])
     $scope.exit = function(){
       localStorage.clear();
       $state.go('login');
+    };
+    $scope.toSearch = function(){
+      $state.go('tab.search');
+    };
+    $scope.toTranslation = function(){
+      $state.go('tab.translation');
+    }
+  })
+
+  .controller('TranslationCtrl', function($scope,$http,API,$ionicPopup) {
+    $scope.original = '';
+    $scope.submitTranslation = function(content){
+      if(content.length > 200){
+        //alert（警告） 对话框
+        var alertPopup = $ionicPopup.alert({
+          title: '提示',
+          template: '翻译文本不能超过200个字符串',
+          okText:'确认',
+          cssClass :'dailySentence'
+        });
+        return;
+      }
+      $http.get(API.translation + '?content=' + content)
+        .success(function(res){//成功
+          if(res.result == API.success){
+            var data = res.data;
+            console.log(res);
+            $scope.translation = data.translation[0];
+          }
+        }).error(function(data){
+        $scope.msg(data, 1000)
+      });
     }
   })
 
   .controller('MoreCtrl', function($scope,$state) {
-    $scope.toSearch = function(){
-      $state.go('tab.search');
-    }
+
   })
 
   .controller('SearchCtrl', function($scope,$http,API) {

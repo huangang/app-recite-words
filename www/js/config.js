@@ -15,5 +15,6 @@ angular.module("starter.config", [])
     'registerUser' : url + 'user/register',//注册
     'searchWord'   : url + 'study/search_word',//搜索单词
     'dailySentence': url + 'study/daily_sentence',//每日一句
+    'translation'  : url + 'study/translation',//翻译
   })
 ;

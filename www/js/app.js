@@ -129,9 +129,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
     .state('tab.search', {
       url: '/search',
       views: {
-        'tab-more': {
+        'tab-me': {
           templateUrl: 'templates/tabs/tab-search.html',
           controller: 'SearchCtrl'
+        }
+      }
+    })
+
+    .state('tab.translation', {
+      url: '/translation',
+      views: {
+        'tab-me': {
+          templateUrl: 'templates/tabs/tab-translation.html',
+          controller: 'TranslationCtrl'
         }
       }
     })

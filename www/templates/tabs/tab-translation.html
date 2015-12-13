@@ -1,0 +1,17 @@
+<ion-view view-title="翻译">
+  <ion-content>
+    <div class="list">
+      <label class="item item-input">
+        <textarea placeholder="原文" ng-model='original'></textarea>
+      </label>
+      <button class="button button-block button-positive" ng-click="submitTranslation(original)">
+        提交
+      </button>
+      <div class="card" ng-show="translation != '' && translation != '' && translation != undefined ">
+        <div class="item item-text-wrap">
+          译文:{{translation}}
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
