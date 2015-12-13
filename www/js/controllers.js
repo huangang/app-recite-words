@@ -32,10 +32,28 @@ angular.module('starter.controllers', [])
 
       }
     });
-
     $scope.startStudy = function(){
         $state.go('tab.study');
       };
+    var sentence = '';
+    $http.get(API.dailySentence)
+      .success(function(res){//成功
+        if(res.result == API.success){
+          sentence = res.data.sentence;
+          sentence = sentence + "<br>翻译:" + res.data.translate;
+        }
+      }).error(function(data){
+      $scope.msg(data, 1000)
+    });
+    $scope.dailySentence = function(){
+      //alert（警告） 对话框
+      var alertPopup = $ionicPopup.alert({
+        title: '每日一句',
+        template: sentence,
+        okText:'OK',
+        cssClass :'dailySentence'
+      });
+    }
   })
 
   .controller('StudyCtrl',  function($scope,$sce,$http,getStudyWordFactory,API){
