@@ -128,9 +128,19 @@ angular.module('starter.controllers', [])
     $scope.submitTranslation = function(content){
       if(content.length > 200){
         //alert（警告） 对话框
-        var alertPopup = $ionicPopup.alert({
+        var alertPopup1 = $ionicPopup.alert({
           title: '提示',
           template: '翻译文本不能超过200个字符串',
+          okText:'确认',
+          cssClass :'dailySentence'
+        });
+        return;
+      }
+      if(content.length <= 0 ){
+        //alert（警告） 对话框
+        var alertPopup2 = $ionicPopup.alert({
+          title: '提示',
+          template: '请输入文本在提交',
           okText:'确认',
           cssClass :'dailySentence'
         });
