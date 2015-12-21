@@ -32,3 +32,7 @@
 .study-button{font-size: 15px;width: 100%;}
 #forget-password{width: 23%;  right: 1%;  padding: initial;  font-size: smaller;}
 .dailySentence{text-align: center}
+#set-avatar{
+  position: static;
+  margin-top: 16px;
+}

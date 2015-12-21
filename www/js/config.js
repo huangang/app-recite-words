@@ -17,5 +17,7 @@ angular.module("starter.config", [])
     'dailySentence': url + 'study/daily_sentence',//每日一句
     'translation'  : url + 'study/translation',//翻译
     'statistics'   : url + 'study/statistics',//学习统计
+    'updateUser'   : url + 'user/update',//更新用户信息
+    'getUser'      : url + 'user/get_user',//获取用户信息
   })
 ;

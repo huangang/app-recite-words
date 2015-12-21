@@ -23,7 +23,8 @@
     {
       "locator": "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git",
       "id": "cordova-plugin-x-toast"
-    }
+    },
+    "org.apache.cordova.splashscreen"
   ],
   "cordovaPlatforms": [
     "ios",

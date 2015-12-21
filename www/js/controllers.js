@@ -120,8 +120,75 @@ angular.module('starter.controllers', [])
     };
     $scope.toStatistics = function(){
       $state.go('tab.statistics');
+    };
+    $scope.toSet = function(){
+      $state.go('tab.set');
     }
   })
+
+  .controller('SetCtrl', function($scope,API,$state,$http,$ionicPopup,$timeout){
+    $scope.msg = function(msg){
+      var time = arguments[1] ? arguments[1] : 2000;
+      var popup = $ionicPopup.show({
+        title: msg,
+        scope: $scope
+      });
+      $timeout(function() {
+        popup.close(); //由于某种原因2秒后关闭弹出
+      }, time);
+    };
+    var viewFiles = document.getElementById("avatarInput");
+    var viewImg = document.getElementById("set-avatar");
+    function viewFile (file) {
+      //通过file.size可以取得图片大小
+      var reader = new FileReader();
+      reader.onload = function( evt ){
+        viewImg.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+    viewFiles.addEventListener("change", function () {
+      //通过 this.files 取到 FileList ，这里只有一个
+      viewFile(this.files[0]);
+    }, false);
+
+    $scope.head = localStorage.getItem('head');
+    $scope.avatar = '';
+    $scope.nickname = localStorage.getItem('nickname');
+    //$scope.signature = '';//个性签名
+    $scope.selectAvatar = function(){
+      var fileInput = document.getElementById("avatarInput");//隐藏的file文本ID
+      fileInput.click();//加一个触发事件
+    };
+    $scope.submit = function(nickname){
+      $.ajaxFileUpload({
+        fileElementId: 'avatarInput',//文件上传域的ID
+        url: API.updateUser,//用于文件上传的服务器端请求地址
+        dataType: 'json',
+        data: { nickname: nickname, uid:localStorage.getItem('uid')},
+        success: function (data, status) {//服务器成功响应处理函数
+          $http.get(API.getUser + '?uid='+localStorage.getItem('uid'))
+            .success(function(res){//成功
+              if(res.result == API.success){
+                var data = res.data;
+                $scope.head = data.head;
+                $scope.nickname = data.nickname;
+                localStorage.setItem('head', data.head );
+                localStorage.setItem('nickname',data.nickname);
+              }
+              $scope.msg('更新成功', 1000);
+              $timeout(function() {
+                $state.go('tab.me');
+              }, 1100);
+            }).error(function(data){
+            $scope.msg(data, 1000)
+          });
+        },
+        error: function (data, status, e) {}//服务器响应失败处理函数
+      });
+    }
+  })
+
 
   .controller('TranslationCtrl', function($scope,$http,API,$ionicPopup) {
     $scope.original = '';

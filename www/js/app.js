@@ -156,6 +156,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
       }
     })
 
+    .state('tab.set', {
+      url: '/set',
+      views: {
+        'tab-me': {
+          templateUrl: 'templates/tabs/tab-set.html',
+          controller: 'SetCtrl'
+        }
+      }
+    })
+
     .state('tab.more', {
     url: '/more',
     views: {

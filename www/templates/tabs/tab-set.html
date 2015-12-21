@@ -1,0 +1,23 @@
+<ion-view view-title="设置">
+  <script src="lib/jquery/extend/ajaxfileupload.js"></script>
+  <ion-content>
+    <div class="list card">
+      <div class="item item-avatar item-image" >
+        <img src="{{ head }}" class="text-center" id="set-avatar" ng-click="selectAvatar()">
+        <i class="icon ion-camera" style="top: 20px;position: relative;right: 7px;"></i>
+        <input type="file" style="display: none" id="avatarInput" name='avatar' accept=".jpg,.jpeg,.png,.gif" ng-model="avatar">
+      </div>
+      <label class="item item-input item-floating-label">
+        <span class="input-label">昵称</span>
+        <input type="text" placeholder="昵称" ng-model="nickname">
+      </label>
+      <!--<label class="item item-input item-floating-label">-->
+        <!--<span class="input-label">签名</span>-->
+        <!--<textarea placeholder="签名" ng-model='signature'></textarea>-->
+      <!--</label>-->
+    </div>
+    <div class="padding">
+      <button class="button button-block button-positive activated" ng-click="submit(nickname)">提交</button>
+    </div>
+  </ion-content>
+</ion-view>
