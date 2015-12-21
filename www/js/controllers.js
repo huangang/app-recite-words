@@ -126,7 +126,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('SetCtrl', function($scope,API,$state,$http,$ionicPopup,$timeout){
+  .controller('SetCtrl', function($scope,API,$state,$http,$ionicPopup,$timeout,$ionicLoading){
     $scope.msg = function(msg){
       var time = arguments[1] ? arguments[1] : 2000;
       var popup = $ionicPopup.show({
@@ -161,6 +161,9 @@ angular.module('starter.controllers', [])
       fileInput.click();//加一个触发事件
     };
     $scope.submit = function(nickname){
+      $ionicLoading.show({
+        template: 'Loading...'
+      });
       $.ajaxFileUpload({
         fileElementId: 'avatarInput',//文件上传域的ID
         url: API.updateUser,//用于文件上传的服务器端请求地址
@@ -176,6 +179,7 @@ angular.module('starter.controllers', [])
                 localStorage.setItem('head', data.head );
                 localStorage.setItem('nickname',data.nickname);
               }
+              $ionicLoading.hide();
               $scope.msg('更新成功', 1000);
               $timeout(function() {
                 $state.go('tab.me');
@@ -188,7 +192,6 @@ angular.module('starter.controllers', [])
       });
     }
   })
-
 
   .controller('TranslationCtrl', function($scope,$http,API,$ionicPopup) {
     $scope.original = '';
