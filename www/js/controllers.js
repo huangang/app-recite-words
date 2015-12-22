@@ -122,7 +122,9 @@ angular.module('starter.controllers', [])
       $state.go('tab.statistics');
     };
     $scope.toSet = function(){
-      $state.go('tab.set');
+      if(!isWeiXin()){
+        $state.go('tab.set');
+      }
     }
   })
 
@@ -130,30 +132,20 @@ angular.module('starter.controllers', [])
     $scope.head = localStorage.getItem('head');
     $scope.avatar = '';
     $scope.nickname = localStorage.getItem('nickname');
+    $scope.msg = function(msg){
+      var time = arguments[1] ? arguments[1] : 2000;
+      var popup = $ionicPopup.show({
+        title: msg,
+        scope: $scope
+      });
+      $timeout(function() {
+        popup.close(); //由于某种原因2秒后关闭弹出
+      }, time);
+    };
     if(isWeiXin()){//微信
       $scope.platform = 'weixin';
       $scope.selectAvatar = function(){
-        wx.chooseImage({
-          success: function (res) {
-            upavatar.localId = res.localIds;
-            if(res.localIds.length == 1) {
-              //alert('上传图片');
-              setTimeout(function(){
-                wx.uploadImage({
-                  localId: upavatar.localId[0],
-                  isShowProgressTips: 1,
-                  success: function (res) {
-                    upavatar.serverId.push(res.serverId);
-                    var sI = upavatar.serverId;
-                  },
-                  fail: function (res) {
-                    alert(JSON.stringify(res));
-                  }
-                  });
-              },0)
-            }
-          }
-        });
+
       };
       $scope.submit = function(nickname){
 
@@ -161,6 +153,7 @@ angular.module('starter.controllers', [])
     }
     else if(navigator.camera){//native
       $scope.platform = 'native';
+      var fileURL = '';
       $scope.selectAvatar = function(prop){
         $ionicActionSheet.show({
           buttons: [
@@ -197,6 +190,7 @@ angular.module('starter.controllers', [])
         };
         Camera.getPicture(options).then(function(imageURI) {
           $scope.head = imageURI;
+          fileURL = imageURI;
         }, function(err) {
           alert("照相机：" + err);
         });
@@ -217,23 +211,72 @@ angular.module('starter.controllers', [])
 
         $cordovaImagePicker.getPictures(options).then(function(results) {
           $scope.head = results[0];
+          fileURL = results[0];
         }, function(error) {
           alert(error);
         });
       };
+      $scope.submit = function(nickname){
+        if(fileURL != '' ){
+          var options = new FileUploadOptions();
+          options.fileKey = "avatar";
+          options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+          options.chunkedMode = true;
+          var params = {
+            uid:localStorage.getItem('uid'),
+            nickname:nickname
+          };
+          options.params = params;
+          var ft = new FileTransfer();
+          $ionicLoading.show({
+            template: '上传中...'
+          });
+          ft.upload($scope.head, API.updateUser,function(data) {
+            var resp = JSON.parse(data.response);
+            if(resp.result == API.success){
+              var datas = resp.data;
+              $scope.head = datas.head;
+              $scope.nickname = datas.nickname;
+              localStorage.setItem('head', datas.head );
+              localStorage.setItem('nickname',datas.nickname);
+            }
+            $scope.msg('更新成功', 1000);
+            $timeout(function() {
+              $state.go('tab.me');
+            }, 1100);
+
+              $ionicLoading.hide();
+            }, function(error) {
+              $ionicLoading.hide();
+            },options
+          );
+        }
+        else {
+          $ionicLoading.show({
+            template: '更新中...'
+          });
+          $http.get(API.updateUser + '?uid='+localStorage.getItem('uid') + '&nickname=' + nickname)
+            .success(function(res){//成功
+              if(res.result == API.success){
+                var data = res.data;
+                $scope.nickname = data.nickname;
+                localStorage.setItem('nickname', data.nickname);
+                $scope.msg('更新成功', 1000);
+                $timeout(function() {
+                  $state.go('tab.me');
+                }, 1100);
+              }
+              $ionicLoading.hide();
+            }).error(function(data){
+            $scope.msg(data, 1000);
+            $ionicLoading.hide();
+          });
+        }
+
+      }
     }
     else {//web
       $scope.platform = 'web';
-      $scope.msg = function(msg){
-        var time = arguments[1] ? arguments[1] : 2000;
-        var popup = $ionicPopup.show({
-          title: msg,
-          scope: $scope
-        });
-        $timeout(function() {
-          popup.close(); //由于某种原因2秒后关闭弹出
-        }, time);
-      };
       var viewFiles = document.getElementById("avatarInput");
       var viewImg = document.getElementById("set-avatar");
       function viewFile (file) {
