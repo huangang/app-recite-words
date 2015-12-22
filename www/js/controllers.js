@@ -31,6 +31,14 @@ angular.module('starter.controllers', [])
         $scope.studyMsg = '开始学习';
 
       }
+      $http.get(API.getUser + '?uid='+localStorage.getItem('uid'))
+        .success(function(res){//成功
+          if(res.result == API.success){
+            var data = res.data;
+            localStorage.setItem('head', data.head );
+            localStorage.setItem('nickname',data.nickname);
+          }
+        }).error(function(data){});
     });
     $scope.startStudy = function(){
         $state.go('tab.study');
