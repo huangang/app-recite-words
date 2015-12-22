@@ -1,5 +1,15 @@
+<div ng-switch="platform">
+  <div ng-switch-when="weixin">
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  </div>
+  <div ng-switch-when="web">
+    <script src="lib/jquery/extend/ajaxfileupload.js"></script>
+  </div>
+  <div ng-switch-when="native">
+    <!--code-->
+  </div>
+</div>
 <ion-view view-title="设置">
-  <script src="lib/jquery/extend/ajaxfileupload.js"></script>
   <ion-content>
     <div class="list card">
       <div class="item item-avatar item-image" >
@@ -21,3 +31,4 @@
     </div>
   </ion-content>
 </ion-view>
+

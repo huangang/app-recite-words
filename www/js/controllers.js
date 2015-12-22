@@ -130,15 +130,37 @@ angular.module('starter.controllers', [])
     $scope.head = localStorage.getItem('head');
     $scope.avatar = '';
     $scope.nickname = localStorage.getItem('nickname');
-    if(isWeiXin()){
+    if(isWeiXin()){//微信
+      $scope.platform = 'weixin';
       $scope.selectAvatar = function(){
-
+        wx.chooseImage({
+          success: function (res) {
+            upavatar.localId = res.localIds;
+            if(res.localIds.length == 1) {
+              //alert('上传图片');
+              setTimeout(function(){
+                wx.uploadImage({
+                  localId: upavatar.localId[0],
+                  isShowProgressTips: 1,
+                  success: function (res) {
+                    upavatar.serverId.push(res.serverId);
+                    var sI = upavatar.serverId;
+                  },
+                  fail: function (res) {
+                    alert(JSON.stringify(res));
+                  }
+                  });
+              },0)
+            }
+          }
+        });
       };
       $scope.submit = function(nickname){
 
       }
     }
-    else if(navigator.camera){
+    else if(navigator.camera){//native
+      $scope.platform = 'native';
       $scope.selectAvatar = function(prop){
         $ionicActionSheet.show({
           buttons: [
@@ -200,7 +222,8 @@ angular.module('starter.controllers', [])
         });
       };
     }
-    else {
+    else {//web
+      $scope.platform = 'web';
       $scope.msg = function(msg){
         var time = arguments[1] ? arguments[1] : 2000;
         var popup = $ionicPopup.show({
