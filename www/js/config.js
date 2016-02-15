@@ -7,6 +7,7 @@ angular.module("starter.config", [])
     //API设置
     'url'          : url,
     'success'      : 1,
+    'num'          : 10,
     'getWord'      : url + 'study/get_word',//获取单词
     'getStudyNum'  : url + 'study/get_study_num',//获取今天已经学习的数量
     'userLogin'    : url + 'user/login',//登录
@@ -19,5 +20,6 @@ angular.module("starter.config", [])
     'statistics'   : url + 'study/statistics',//学习统计
     'updateUser'   : url + 'user/update',//更新用户信息
     'getUser'      : url + 'user/get_user',//获取用户信息
+    'getVocabulary': url + 'user/get_vocabulary',//获取生词本
   })
 ;

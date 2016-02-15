@@ -129,7 +129,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
     .state('tab.search', {
       url: '/search',
       views: {
-        'tab-me': {
+        'tab-more': {
           templateUrl: 'templates/tabs/tab-search.html',
           controller: 'SearchCtrl'
         }
@@ -139,7 +139,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
     .state('tab.translation', {
       url: '/translation',
       views: {
-        'tab-me': {
+        'tab-more': {
           templateUrl: 'templates/tabs/tab-translation.html',
           controller: 'TranslationCtrl'
         }
@@ -152,6 +152,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
         'tab-me': {
           templateUrl: 'templates/tabs/tab-statistics.html',
           controller: 'StatisticsCtrl'
+        }
+      }
+    })
+
+    .state('tab.vocabulary', {
+      url: '/vocabulary',
+      views: {
+        'tab-me': {
+          templateUrl: 'templates/tabs/tab-vocabulary.html',
+          controller: 'VocabularyCtrl'
         }
       }
     })

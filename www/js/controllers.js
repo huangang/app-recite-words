@@ -120,12 +120,6 @@ angular.module('starter.controllers', [])
       localStorage.clear();
       $state.go('login');
     };
-    $scope.toSearch = function(){
-      $state.go('tab.search');
-    };
-    $scope.toTranslation = function(){
-      $state.go('tab.translation');
-    };
     $scope.toStatistics = function(){
       $state.go('tab.statistics');
     };
@@ -133,7 +127,34 @@ angular.module('starter.controllers', [])
       if(!isWeiXin()){
         $state.go('tab.set');
       }
+    };
+    $scope.toVocabulary = function(){
+      $state.go('tab.vocabulary');
+    };
+    $scope.modifyPassword = function(){
+
+    };
+  })
+
+  .controller('VocabularyCtrl', function($scope, getVocabulary){
+    var since_id = localStorage.getItem('vocabularyId');
+    if(isNull(since_id)){
+      since_id = 0;
+      localStorage.setItem('vocabularyId', since_id);
     }
+    //获取服务器数据保存
+    getVocabulary.getVocabulary(since_id, -10);
+    //接收到刚才传过来的通知
+    $scope.vocabularyData = [];
+    $scope.$on('Vocabulary', function() {
+      $scope.vocabularyData = getVocabulary.getVocabularyData();
+    });
+    $scope.doRefresh = function () {
+      $scope.loadMore();
+    };
+    $scope.loadMore = function(){
+      getVocabulary.getVocabulary(localStorage.getItem('vocabularyId'), -10);
+    };
   })
 
   .controller('SetCtrl', function($scope,$ionicActionSheet,$ionicPopup,$cordovaImagePicker,$ionicLoading,$timeout,Camera,API,$state,$http){
@@ -396,12 +417,17 @@ angular.module('starter.controllers', [])
   })
 
   .controller('MoreCtrl', function($scope,$state) {
-
+    $scope.toSearch = function(){
+      $state.go('tab.search');
+    };
+    $scope.toTranslation = function(){
+      $state.go('tab.translation');
+    };
   })
 
   .controller('SearchCtrl', function($scope,$http,API) {
     $scope.content = '';
-    $scope.datas  = new Array();
+    $scope.datas  = [];
     var length = 0;
     $scope.searchWord = function(){
       if(length < $scope.content.length){
@@ -604,7 +630,7 @@ angular.module('starter.controllers', [])
  * @param data
  */
 function isNull(data){
-  return (data == "" || data == undefined || data == null) ? false : data;
+  return (data == "" || data == undefined || data == null) ? true : data;
 }
 
 Array.prototype.add = function (item) {
