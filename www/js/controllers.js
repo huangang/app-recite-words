@@ -132,7 +132,7 @@ angular.module('starter.controllers', [])
       $state.go('tab.vocabulary');
     };
     $scope.modifyPassword = function(){
-
+      $state.go('tab.modify');
     };
   })
 
@@ -661,6 +661,55 @@ angular.module('starter.controllers', [])
 
   .controller('ForgetPasswordCtrl', function($scope,$state) {
 
+  })
+
+  .controller('ModifyPasswordCtrl', function($scope,$state,$ionicPopup,$http, API, $timeout){
+    $scope.password = '';
+    $scope.modify = function(){
+      if($scope.password.length < 6){
+        //alert（警告） 对话框
+        var alertPopup = $ionicPopup.alert({
+          title: '提示',
+          template: '密码长度不能小于6位',
+          okText:'确认',
+          cssClass :'dailySentence'
+        });
+        return;
+      }
+      var password = hex_md5($scope.password);
+      $scope.msg = function(msg){
+        var time = arguments[1] ? arguments[1] : 2000;
+        var popup = $ionicPopup.show({
+          title: msg,
+          scope: $scope
+        });
+        $timeout(function() {
+          popup.close(); //由于某种原因2秒后关闭弹出
+        }, time);
+      };
+      var url = API.modifyPwd,
+        data = {
+          uid:  localStorage.getItem('uid'),
+          password: password
+        },
+        transFn = function(data) {
+          return $.param(data);
+        },
+        postCfg = {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+          transformRequest: transFn
+        };
+      $http.post(url, data, postCfg)
+        .success(function(res){//成功
+          if(res.result == API.success){
+            $scope.msg('密码修改成功');
+            $scope.password = '';
+            $state.go('tab.me');
+          }else {
+            $scope.msg('密码修改失败');
+          }
+        })
+    }
   })
 
 ;

@@ -156,6 +156,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
       }
     })
 
+
+    .state('tab.modify', {
+      url: '/modify',
+      views: {
+        'tab-me': {
+          templateUrl: 'templates/tabs/tab-modify-password.html',
+          controller: 'ModifyPasswordCtrl'
+        }
+      }
+    })
+
     .state('tab.vocabulary', {
       url: '/vocabulary',
       views: {
