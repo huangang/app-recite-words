@@ -21,5 +21,6 @@ angular.module("starter.config", [])
     'updateUser'   : url + 'user/update',//更新用户信息
     'getUser'      : url + 'user/get_user',//获取用户信息
     'getVocabulary': url + 'user/get_vocabulary',//获取生词本
+    'delVocabulary': url + 'user/remove_vocabulary',//删除生词本
   })
 ;

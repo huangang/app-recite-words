@@ -136,24 +136,32 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('VocabularyCtrl', function($scope, getVocabulary){
-    var since_id = localStorage.getItem('vocabularyId');
-    if(isNull(since_id)){
-      since_id = 0;
-      localStorage.setItem('vocabularyId', since_id);
-    }
+  .controller('VocabularyCtrl', function($scope, getVocabulary, API, $http){
     //获取服务器数据保存
-    getVocabulary.getVocabulary(since_id, -10);
+    getVocabulary.getVocabulary();
     //接收到刚才传过来的通知
-    $scope.vocabularyData = [];
     $scope.$on('Vocabulary', function() {
       $scope.vocabularyData = getVocabulary.getVocabularyData();
     });
-    $scope.doRefresh = function () {
-      $scope.loadMore();
-    };
-    $scope.loadMore = function(){
-      getVocabulary.getVocabulary(localStorage.getItem('vocabularyId'), -10);
+    $scope.learn = function(vid, item){
+      var url = API.delVocabulary,
+        data = {
+          uid: localStorage.getItem('uid'),
+          vid: vid
+        },
+        transFn = function(data) {
+          return $.param(data);
+        },
+        postCfg = {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+          transformRequest: transFn
+        };
+      $http.post(url, data, postCfg)
+        .success(function(res){//成功
+          if(res.result == API.success){
+            $scope.vocabularyData.splice($scope.vocabularyData.indexOf(item), 1);
+          }
+        });
     };
   })
 

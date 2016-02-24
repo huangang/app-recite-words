@@ -63,23 +63,18 @@ angular.module('starter.services', [])
       query: {
         method: 'get',
         params: {
-          uid:'@uid',
-          since_id:'@since_id',
-          num:'@num'
+          uid:'@uid'
         },
         timeout: 20000
       }
     });
 
     return {
-      getVocabulary:function(since_id, num){
+      getVocabulary:function(){
         resource.query({
-          uid: localStorage.getItem('uid'),
-          since_id: since_id,
-          num: num
+          uid: localStorage.getItem('uid')
         }, function (r) {
           VocabularyData = r.data;
-          localStorage.setItem('vocabularyId',VocabularyData[0].id);
           //在这里请求完成以后  通知controller
           $rootScope.$broadcast('Vocabulary');
         })

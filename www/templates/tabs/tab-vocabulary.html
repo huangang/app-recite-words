@@ -1,11 +1,12 @@
 <ion-view view-title="生词本">
   <ion-content ng-controller="VocabularyCtrl">
-    <ion-refresher
-      pulling-text="下拉刷新..."
-      on-refresh="doRefresh()"></ion-refresher>
-    <ul class="list">
-      <li class="item">
-        1
+    <ul class="list" ng-repeat="data in vocabularyData">
+      <li class="item item-button-right">
+        <h2>{{data.word}}</h2>
+        <p style="white-space: normal;">{{data.meaning}}</p>
+        <button class="button button-balanced button-assertive vocabulary-button" ng-click="learn(data.id ,data)" >
+          会了
+        </button>
       </li>
     </ul>
   </ion-content >
