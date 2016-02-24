@@ -22,5 +22,6 @@ angular.module("starter.config", [])
     'getUser'      : url + 'user/get_user',//获取用户信息
     'getVocabulary': url + 'user/get_vocabulary',//获取生词本
     'delVocabulary': url + 'user/remove_vocabulary',//删除生词本
+    'feedback'     : url + 'user/feedback',//翻译
   })
 ;

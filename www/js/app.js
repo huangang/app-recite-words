@@ -186,6 +186,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
     }
   })
 
+    .state('tab.feedback', {
+      url: '/feedback',
+      views: {
+         'tab-more': {
+          templateUrl: 'templates/tabs/tab-feedback.html',
+          controller: 'FeedbackCtrl'
+        }
+      }
+    })
+
   ;
 
   // if none of the above states are matched, use this as the fallback

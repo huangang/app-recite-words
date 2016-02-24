@@ -431,6 +431,9 @@ angular.module('starter.controllers', [])
     $scope.toTranslation = function(){
       $state.go('tab.translation');
     };
+    $scope.toFeedback = function(){
+      $state.go('tab.feedback');
+    };
   })
 
   .controller('SearchCtrl', function($scope,$http,API) {
@@ -453,6 +456,36 @@ angular.module('starter.controllers', [])
       if(length == 0){
         $scope.datas = [];
       }
+    }
+  })
+
+  .controller('FeedbackCtrl',function($scope,$http,API,$ionicPopup, $timeout,$state){
+    $scope.original = '';
+    $scope.submitFeedback = function(content){
+      if(content.length <= 0 ){
+        //alert（警告） 对话框
+        var alertPopup = $ionicPopup.alert({
+          title: '提示',
+          template: '请输入文本在提交',
+          okText:'确认',
+          cssClass :'dailySentence'
+        });
+        return;
+      }
+      $http.get(API.feedback + '?content=' + content + "&uid=" + localStorage.getItem('uid'))
+        .success(function(res){//成功
+          if(res.result == API.success){
+            var popup = $ionicPopup.show({
+              title: "反馈成功",
+              scope: $scope,
+            });
+            $timeout(function() {
+              popup.close(); //由于某种原因2秒后关闭弹出
+              $state.go('tab.more');
+            }, 1500);
+          }
+        }).error(function(){
+      });
     }
   })
 

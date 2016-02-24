@@ -1,0 +1,12 @@
+<ion-view view-title="意见反馈">
+  <ion-content>
+    <div class="list">
+      <label class="item item-input">
+        <textarea placeholder="反馈内容" ng-model='original' rows="10" maxlength="200"></textarea>
+      </label>
+      <button class="button button-block button-assertive" ng-click="submitFeedback(original)">
+        提交
+      </button>
+    </div>
+  </ion-content>
+</ion-view>
