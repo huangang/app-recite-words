@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('VocabularyCtrl', function($scope, getVocabulary, API, $http){
+  .controller('VocabularyCtrl', function($scope, getVocabulary, API, $http, $ionicPopup){
     //获取服务器数据保存
     getVocabulary.getVocabulary();
     //接收到刚才传过来的通知
@@ -160,6 +160,48 @@ angular.module('starter.controllers', [])
         .success(function(res){//成功
           if(res.result == API.success){
             $scope.vocabularyData.splice($scope.vocabularyData.indexOf(item), 1);
+          }
+        });
+    };
+
+
+    $scope.content = '';
+    $scope.data  = false;
+    var length = 0;
+    $scope.searchWord = function(){
+      if(length < $scope.content.length){
+        $http.get(API.searchWord + '?word=' + $scope.content)
+          .success(function(res){//成功
+            if(res.result == API.success){
+              var data = res.data;
+              $scope.data = data;
+            }
+          });
+      }else {
+        $scope.data = false;
+      }
+      length = $scope.content.length;
+      if(length == 0){
+        $scope.data = false;
+      }
+    };
+    $scope.addWord = function(word, explain){
+      $http.get(API.addVocabulary + '?word=' + word + '&uid=' + localStorage.getItem('uid'))
+        .success(function(res){//成功
+          if(res.result == API.success){
+            var ret = Array();
+            ret.word = word;
+            ret.meaning  =explain;
+            $scope.vocabularyData.add(ret);
+            $scope.data = false;
+          }else {
+            $scope.data = false;
+            var alertPopup = $ionicPopup.alert({
+              title: '添加失败',
+              template: '单词已经存在',
+              okText:'确定',
+              cssClass :'dailySentence'
+            });
           }
         });
     };

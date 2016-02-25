@@ -24,5 +24,6 @@ angular.module("starter.config", [])
     'delVocabulary': url + 'user/remove_vocabulary',//删除生词本
     'feedback'     : url + 'user/feedback',//翻译
     'modifyPwd'    : url + 'user/modify_password',//修改密码
+    'addVocabulary': url + 'user/add_vocabulary',//添加新的生词
   })
 ;

@@ -57,8 +57,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
     }, 101);
   })
 
-.config(function($stateProvider, $urlRouterProvider) {
-
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.tabs.style('standard'); // Tab风格
+  $ionicConfigProvider.tabs.position('bottom'); // Tab位置
+  $ionicConfigProvider.navBar.alignTitle('center'); // 标题位置
+  $ionicConfigProvider.navBar.positionPrimaryButtons('left'); // 主要操作按钮位置
+  $ionicConfigProvider.navBar.positionSecondaryButtons('right'); //次要操作按钮位置
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.

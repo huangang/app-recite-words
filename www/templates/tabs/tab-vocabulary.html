@@ -1,10 +1,26 @@
 <ion-view view-title="生词本">
-  <ion-content ng-controller="VocabularyCtrl">
+  <div class="list bar-subheader">
+    <div class="item item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="search" placeholder="添加新词" ng-change="searchWord()" ng-model="content">
+      </label>
+    </div>
+    <div class="list"  style="background: white" ng-show="data">
+      <a class="item item-button-right" href="javascript:;">
+        <h2>{{data.word}}</h2>
+        <p style="white-space: normal;">{{data.explain}}</p>
+        <button class="button button-assertive vocabulary-button" ng-click="addWord(data.word, data.explain)">
+          添加
+        </button>
+      </a>
+    </div>
+  </div>
+  <ion-content style="margin-top: 21%;">
     <ul class="list" ng-repeat="data in vocabularyData">
       <li class="item item-button-right">
         <h2>{{data.word}}</h2>
         <p style="white-space: normal;">{{data.meaning}}</p>
-        <button class="button button-balanced button-assertive vocabulary-button" ng-click="learn(data.id ,data)" >
+        <button class="button button-balanced vocabulary-button" ng-click="learn(data.id ,data)" >
           会了
         </button>
       </li>
