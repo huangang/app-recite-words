@@ -4,7 +4,8 @@
       <div class="item item-divider study-header">
         <div class="study-word">{{wordData.word}}</div>
         <div class="study-phonetic" ng-click="playAudio()">{{wordData.pronunciation}}
-          <i class="icon icon-right ion-volume-medium" ng-click="playAudio()"><audio popover-title="{{audio}}"  ng-src="{{sce(audio)}}" id="audio"></audio></i></div>
+          <i class="icon icon-right ion-volume-medium" ng-click="playAudio()"><audio popover-title="{{audio}}"  ng-src="{{sce(audio)}}" id="audio"></audio></i>
+        </div>
       </div>
       <div class="item item-text-wrap" animation="slide-left-right-ios7" >
         <ion-slide-box active-slide="studyActiveSlide">

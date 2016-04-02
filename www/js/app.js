@@ -120,6 +120,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.config','sta
       }
     })
 
+    .state('tab.consolidate', {
+      url: '/consolidate',
+      views: {
+        'tab-word': {
+          templateUrl: 'templates/tabs/tab-consolidate.html',
+          controller: 'ConsolidateCtrl'
+        }
+      }
+    })
+
     .state('tab.me', {
       url: '/me',
       views: {

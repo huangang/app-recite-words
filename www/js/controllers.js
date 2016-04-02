@@ -43,6 +43,9 @@ angular.module('starter.controllers', [])
     $scope.startStudy = function(){
         $state.go('tab.study');
       };
+    $scope.consolidate = function(){
+      $state.go('tab.consolidate');
+    };
     var sentence = '';
     $http.get(API.dailySentence)
       .success(function(res){//成功
@@ -106,6 +109,46 @@ angular.module('starter.controllers', [])
             var data = res.data;
             localStorage.setItem('nowStudyNum',data.nowStudyNum);//一句学习数
             getStudyWordFactory.getWord();
+          }
+        });
+    }
+  })
+
+  .controller('ConsolidateCtrl', function ($scope, $sce,$http, API,getConsolidateFactory) {
+    $scope.sce = $sce.trustAsResourceUrl;
+    $scope.playAudio = function(){
+      var audio = document.getElementById('audio');
+      audio.play();
+    };
+    $scope.showWord = function(){
+      $(".box").css({ visibility: "visible"});
+    };
+    getConsolidateFactory.getWord();
+    //接收到刚才传过来的通知
+    $scope.$on('ConsolidateWord', function() {
+      $scope.wordData = getConsolidateFactory.getWordData();
+      $scope.audio = $scope.wordData.audio;
+    });
+    $scope.nextWord = function(status){
+      var url = API.recordStudy,
+        data = {
+          uid: localStorage.getItem('uid'),
+          word: $scope.wordData.word,
+          status: status
+        },
+        transFn = function(data) {
+          return $.param(data);
+        },
+        postCfg = {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+          transformRequest: transFn
+        };
+      $http.post(url, data, postCfg)
+        .success(function(res){//成功
+          if(res.result == API.success){
+            var data = res.data;
+            localStorage.setItem('nowStudyNum',data.nowStudyNum);//一句学习数
+            getConsolidateFactory.getWord();
           }
         });
     }

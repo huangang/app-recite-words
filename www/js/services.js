@@ -87,5 +87,37 @@ angular.module('starter.services', [])
     }
   })
 
+  /**
+   * 巩固
+   */
+  .factory('getConsolidateFactory',function($rootScope,$resource,API){
+    var WordData = {};
+    var resource = $resource(API.consolidate, {}, {
+      query: {
+        method: 'get',
+        params: {
+          uid:'@uid'
+        },
+        timeout: 20000
+      }
+    });
 
+    return {
+      getWord:function(){
+        resource.query({
+          uid: localStorage.getItem('uid')
+        }, function (r) {
+          WordData = r.data;
+          //在这里请求完成以后  通知controller
+          $rootScope.$broadcast('ConsolidateWord');
+
+        })
+      } ,
+      //返回我们保存的数据
+      getWordData:function(){
+        return WordData;
+      }
+
+    }
+  })
 ;

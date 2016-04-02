@@ -22,8 +22,9 @@ angular.module("starter.config", [])
     'getUser'      : url + 'user/get_user',//获取用户信息
     'getVocabulary': url + 'user/get_vocabulary',//获取生词本
     'delVocabulary': url + 'user/remove_vocabulary',//删除生词本
-    'feedback'     : url + 'user/feedback',//翻译
+    'feedback'     : url + 'user/feedback',//反馈
     'modifyPwd'    : url + 'user/modify_password',//修改密码
     'addVocabulary': url + 'user/add_vocabulary',//添加新的生词
+    'consolidate'  : url + 'study/consolidate',
   })
 ;
