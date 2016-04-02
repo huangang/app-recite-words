@@ -130,6 +130,7 @@ angular.module('starter.controllers', [])
       $scope.audio = $scope.wordData.audio;
     });
     $scope.nextWord = function(status){
+      $(".box").css({ visibility: "hidden"});
       var url = API.recordStudy,
         data = {
           uid: localStorage.getItem('uid'),
