@@ -2,6 +2,8 @@
 ionic platform add ios/android    
 ionic build ios/android      
 ionic emulate ios/android   
+
+`cordova plugin add cordova-plugin-whitelist`
 # 在电脑上查看
 ionic serve   
 
