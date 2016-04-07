@@ -520,6 +520,9 @@ angular.module('starter.controllers', [])
     $scope.toFeedback = function(){
       $state.go('tab.feedback');
     };
+    $scope.toOther = function(){
+      $state.go('http://sspai.com/');
+    };
   })
 
   .controller('SearchCtrl', function($scope,$http,API) {
